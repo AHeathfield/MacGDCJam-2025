@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float decelerationFactor = 10f;
 
     [SerializeField] private float gravity = -9.81f;
-    [SerializeField] private float _maxFallSpeed = 10f;
 
     [Header("Dash Settings")]
     [SerializeField] private float dashSpeed = 12f;
@@ -57,8 +56,7 @@ public class PlayerController : MonoBehaviour
 
         if (!isGrounded)
         {
-            _velocity.y += gravity * Time.deltaTime;
-            _velocity.y = Mathf.Clamp(_velocity.y, -_maxFallSpeed, _maxFallSpeed);
+            _velocity.y = gravity * Time.deltaTime;
         }
         
         GatherInput();
