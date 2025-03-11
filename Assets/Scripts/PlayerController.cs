@@ -125,6 +125,5 @@ public class PlayerController : MonoBehaviour
         _isDashing = false;
         yield return new WaitForSeconds(dashCooldown);
         _canDash = true;
-        Debug.Log("This is a test for Jay");
     }
 }
