@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
         Vector3 multipliedMatrix = isometricMatrix.MultiplyPoint3x4(_input);
 
         Quaternion rotation = Quaternion.LookRotation(multipliedMatrix, Vector3.up);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+        transform.rotation = rotation;
     }
 
     void CalculateSpeed()
