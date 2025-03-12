@@ -3,13 +3,14 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Scripting.APIUpdating;
 
-[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float rotationSpeed = 360f;
     [SerializeField] private float accelerationFactor = 5f;
     [SerializeField] private float decelerationFactor = 10f;
+
+    [SerializeField] private float rotationOffset = 45f;  // Field just in case we change isometric offset
 
     [SerializeField] private float gravity = -9.81f;
 
@@ -22,7 +23,6 @@ public class PlayerController : MonoBehaviour
     private bool _isDashing;
     private bool _dashInput;
     
-    private CharacterController _characterController;
     private InputSystem_Actions _playerInputActions;
     private Vector3 _input;
     private float _currentSpeed;
@@ -31,7 +31,6 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         _playerInputActions = new InputSystem_Actions();
-        _characterController = GetComponent<CharacterController>();
 
         _canDash = true;
     }
@@ -48,7 +47,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        bool isGrounded = _characterController.isGrounded;
+        // bool isGrounded = _characterController.isGrounded;
+        bool isGrounded = true;
         if (isGrounded && _velocity.y < 0)
         {
             _velocity.y = -2f;
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
         Vector3 multipliedMatrix = isometricMatrix.MultiplyPoint3x4(_input);
 
         Quaternion rotation = Quaternion.LookRotation(multipliedMatrix, Vector3.up);
-        transform.rotation = rotation;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
     }
 
     void CalculateSpeed()
@@ -107,14 +107,19 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
+        // Normalizing in case diagonal faster
+        _input.Normalize();
+        Vector3 moveDir = _input * _currentSpeed * Time.deltaTime;
+        moveDir = Quaternion.Euler(0, rotationOffset, 0) * moveDir; // Making up for the isometric offset
+
         if (_isDashing)
         {
-            _characterController.Move(transform.forward * dashSpeed * Time.deltaTime);
+            transform.Translate(transform.forward * dashSpeed * Time.deltaTime, Space.World);
             return;
         }
+
+        transform.Translate(moveDir, Space.World);
         
-        Vector3 moveDirection = transform.forward * _currentSpeed * _input.magnitude * Time.deltaTime + _velocity;
-        _characterController.Move(moveDirection);
     }
 
     IEnumerator Dash()
