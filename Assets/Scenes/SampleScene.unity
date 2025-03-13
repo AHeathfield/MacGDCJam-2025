@@ -903,6 +903,7 @@ GameObject:
   - component: {fileID: 924365840}
   - component: {fileID: 924365839}
   - component: {fileID: 924365838}
+  - component: {fileID: 924365841}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -919,11 +920,11 @@ Transform:
   m_GameObject: {fileID: 924365836}
   serializedVersion: 2
   m_LocalRotation: {x: 0.55743325, y: 0.46825096, z: -0.4409585, w: 0.52494276}
-  m_LocalPosition: {x: 11.76, y: 0.94, z: -8.3}
-  m_LocalScale: {x: 2.8385, y: 2.8385, z: 2.8385005}
+  m_LocalPosition: {x: 15.95, y: 0.94, z: -4.6}
+  m_LocalScale: {x: 2.8385003, y: 2.8385007, z: 2.8385012}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1736981701}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 93.438995, y: 0, z: -80.061005}
 --- !u!136 &924365838
 CapsuleCollider:
@@ -1001,6 +1002,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 924365836}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &924365841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924365836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3274b76b08167ba448e83fd0be92855c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointA: {x: 8.5, y: 0.94, z: -12.07}
+  pointB: {x: 15.95, y: 0.94, z: -4.6}
+  speed: 1
 --- !u!1 &966103797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,7 +1156,6 @@ Transform:
   m_Children:
   - {fileID: 534636320}
   - {fileID: 966103798}
-  - {fileID: 924365837}
   - {fileID: 1887780901}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1381,6 +1396,7 @@ MonoBehaviour:
   rotationSpeed: 1440
   accelerationFactor: 5
   decelerationFactor: 10
+  rotationOffset: 45
   gravity: -8
   dashSpeed: 40
   dashDuration: 0.2
@@ -1421,3 +1437,4 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 765681792}
   - {fileID: 1736981701}
+  - {fileID: 924365837}
