@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 2451383767192776330}
   - component: {fileID: 51198101637099375}
   - component: {fileID: 9208454120203270710}
+  - component: {fileID: 702231938921800401}
   - component: {fileID: 8217911682396209563}
   - component: {fileID: 2859578369862053545}
   m_Layer: 0
@@ -219,6 +220,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &702231938921800401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8474923895694987695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 299e5ad272c33425c9292a01e6e5a213, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8217911682396209563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +253,8 @@ MonoBehaviour:
   dashSpeed: 40
   dashDuration: 0.2
   dashCooldown: 1.5
+  timeChangeDuration: 0.2
+  timeChangeCooldown: 3
 --- !u!143 &2859578369862053545
 CharacterController:
   m_ObjectHideFlags: 0

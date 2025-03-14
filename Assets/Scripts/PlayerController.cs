@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
     private float _currentSpeed;
     private Vector3 _velocity;
 
+    private ClosestSwitch closestSwitchPoint;
+
     void Awake()
     {
         _playerInputActions = new InputSystem_Actions();
@@ -204,7 +206,8 @@ public class PlayerController : MonoBehaviour
     IEnumerator TimeSwitch()
     {
         // So we don't spawn at the spawn point of the scene we keep our current position
-        PlayerController.currentPos = transform.position;
+        closestSwitchPoint = this.GetComponent<ClosestSwitch>();
+        PlayerController.currentPos = closestSwitchPoint.getSwitchPoint();
         PlayerController.currentRot = transform.rotation;
 
         _canTimeChange = false;
