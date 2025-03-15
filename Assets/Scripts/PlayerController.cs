@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float timeChangeCooldown = 3.0f;
     [SerializeField] Animator transitionAnim;
 
+    private CharacterController _characterController;
+
     // Globals
     private static Vector3 currentPos = new Vector3(0.0f, 0.0f, 0.0f);
     private static Quaternion currentRot = new Quaternion();
@@ -54,6 +56,12 @@ public class PlayerController : MonoBehaviour
     {
         _playerInputActions = new InputSystem_Actions();
 
+        _characterController = GetComponent<CharacterController>();
+        if (_characterController == null)
+        {
+            Debug.LogError("CharacterController not found!");
+        }
+
         _canDash = true;
         _canTimeChange = true;
     }
@@ -76,8 +84,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // bool isGrounded = _characterController.isGrounded;
-        bool isGrounded = true;
+        bool isGrounded = _characterController.isGrounded;
+        //bool isGrounded = true;
         if (isGrounded && _velocity.y < 0)
         {
             _velocity.y = -2f;
@@ -160,16 +168,25 @@ public class PlayerController : MonoBehaviour
     {
         // Normalizing in case diagonal faster
         _input.Normalize();
-        Vector3 moveDir = _input * _currentSpeed * Time.deltaTime;
+        //Vector3 moveDir = _input * _currentSpeed * Time.deltaTime;
+        Vector3 moveDir = _input * _currentSpeed;
         moveDir = Quaternion.Euler(0, rotationOffset, 0) * moveDir; // Making up for the isometric offset
 
         if (_isDashing)
         {
-            transform.Translate(transform.forward * dashSpeed * Time.deltaTime, Space.World);
+            //transform.Translate(transform.forward * dashSpeed * Time.deltaTime, Space.World);
+            Vector3 dashDir = transform.forward * dashSpeed;
+            _characterController.Move(dashDir * Time.deltaTime);
             return;
         }
 
-        transform.Translate(moveDir, Space.World);
+        // Apply gravity to movement
+        Vector3 finalMove = moveDir * Time.deltaTime;
+        finalMove.y = _velocity.y * Time.deltaTime;
+        
+        // Use CharacterController to move
+        _characterController.Move(finalMove);
+        //transform.Translate(moveDir, Space.World);
         
     }
 

@@ -249,13 +249,13 @@ MonoBehaviour:
   accelerationFactor: 5
   decelerationFactor: 10
   rotationOffset: 45
-  gravity: -8
+  gravity: -200
   dashSpeed: 40
   dashDuration: 0.2
   dashCooldown: 1.5
   timeChangeDuration: 0.2
   timeChangeCooldown: 3
-  transitionAnim: {fileID: 8749230007623088902, guid: 9accbc439ad1e0e45929ac41120371aa, type: 3}
+  transitionAnim: {fileID: 0}
 --- !u!143 &2859578369862053545
 CharacterController:
   m_ObjectHideFlags: 0
