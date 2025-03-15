@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     [Header("TimeChange Settings")]
     [SerializeField] private float timeChangeDuration = 0.2f;
     [SerializeField] private float timeChangeCooldown = 3.0f;
+    [SerializeField] Animator transitionAnim;
 
     // Globals
     private static Vector3 currentPos = new Vector3(0.0f, 0.0f, 0.0f);
@@ -211,11 +212,14 @@ public class PlayerController : MonoBehaviour
         PlayerController.currentRot = transform.rotation;
 
         _canTimeChange = false;
+        transitionAnim.SetTrigger("Enter");
+        yield return new WaitForSeconds(1.0f);
         _isTimeChanging = true;
         yield return new WaitForSeconds(timeChangeDuration);
         _isTimeChanging = false;
         yield return new WaitForSeconds(timeChangeCooldown);
         _canTimeChange = true;
+        transitionAnim.SetTrigger("Exit");
 
         // Putting us back to the position before we switched time
         // transform.position = currentPos; 
