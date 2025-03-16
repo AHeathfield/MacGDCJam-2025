@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator transitionAnim;
 
     private CharacterController _characterController;
+    AudioManager audioManager;
 
     // Globals
     private static Vector3 currentPos = new Vector3(0.0f, 0.0f, 0.0f);
@@ -66,6 +67,8 @@ public class PlayerController : MonoBehaviour
 
         _canDash = true;
         _canTimeChange = true;
+
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     void OnEnable()
@@ -241,6 +244,7 @@ public class PlayerController : MonoBehaviour
         PlayerController.currentHealth = GetComponent<Health>().GetHealth();
 
         _canTimeChange = false;
+        audioManager.PlaySFX(audioManager.timeChangeSFX);
         transitionAnim.SetTrigger("Enter");
         yield return new WaitForSeconds(1.0f);
         _isTimeChanging = true;
@@ -249,6 +253,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(timeChangeCooldown);
         _canTimeChange = true;
         transitionAnim.SetTrigger("Exit");
+        audioManager.PlaySFX(audioManager.timeChangeSFX);
 
         // Putting us back to the position before we switched time
         // transform.position = currentPos; 
