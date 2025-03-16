@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     // Globals
     private static Vector3 currentPos = new Vector3(0.0f, 0.0f, 0.0f);
     private static Quaternion currentRot = new Quaternion();
+    private static float currentHealth = 0.0f;
 
 
     private bool _canDash;
@@ -55,8 +56,9 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         _playerInputActions = new InputSystem_Actions();
-
+        
         _characterController = GetComponent<CharacterController>();
+        // PlayerController.currentHealth = GetComponent<Health>().GetHealth();
         if (_characterController == null)
         {
             Debug.LogError("CharacterController not found!");
@@ -80,6 +82,15 @@ public class PlayerController : MonoBehaviour
     {
         this.transform.position = PlayerController.currentPos;
         this.transform.rotation = PlayerController.currentRot;
+        
+        // Changing Health hardcoded :P
+        float originalHealth = PlayerController.currentHealth;
+        if (Mathf.Abs(originalHealth) > 0.1f)
+        {
+            Health playerHealth = GetComponent<Health>();
+            float damageTaken = -1 * (playerHealth.GetMaxHealth() - originalHealth);
+            playerHealth.ChangeHealth(damageTaken);
+        }
     }
 
     void Update()
@@ -227,6 +238,7 @@ public class PlayerController : MonoBehaviour
         closestSwitchPoint = this.GetComponent<ClosestSwitch>();
         PlayerController.currentPos = closestSwitchPoint.getSwitchPoint();
         PlayerController.currentRot = transform.rotation;
+        PlayerController.currentHealth = GetComponent<Health>().GetHealth();
 
         _canTimeChange = false;
         transitionAnim.SetTrigger("Enter");
