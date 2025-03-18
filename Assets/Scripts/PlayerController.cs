@@ -30,9 +30,9 @@ public class PlayerController : MonoBehaviour
     AudioManager audioManager;
 
     // Globals
-    private static Vector3 currentPos = new Vector3(0.0f, 0.0f, 0.0f);
-    private static Quaternion currentRot = new Quaternion();
-    private static float currentHealth = 0.0f;
+    // private static Vector3 currentPos = new Vector3(0.0f, 0.0f, 0.0f);
+    // private static Quaternion currentRot = new Quaternion();
+    // private static float currentHealth = 0.0f;
 
 
     private bool _canDash;
@@ -83,11 +83,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        this.transform.position = PlayerController.currentPos;
-        this.transform.rotation = PlayerController.currentRot;
+        this.transform.position = Player.timePos;
+        this.transform.rotation = Player.timeRot;
         
         // Changing Health hardcoded :P
-        float originalHealth = PlayerController.currentHealth;
+        float originalHealth = Player.timeHealth;
         if (Mathf.Abs(originalHealth) > 0.1f)
         {
             Health playerHealth = GetComponent<Health>();
@@ -239,9 +239,9 @@ public class PlayerController : MonoBehaviour
     {
         // So we don't spawn at the spawn point of the scene we keep our current position
         closestSwitchPoint = this.GetComponent<ClosestSwitch>();
-        PlayerController.currentPos = closestSwitchPoint.getSwitchPoint();
-        PlayerController.currentRot = transform.rotation;
-        PlayerController.currentHealth = GetComponent<Health>().GetHealth();
+        Player.timePos = closestSwitchPoint.getSwitchPoint();
+        Player.timeRot = transform.rotation;
+        Player.timeHealth = GetComponent<Health>().GetHealth();
 
         _canTimeChange = false;
         audioManager.PlaySFX(audioManager.timeChangeSFX);
