@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SwitchPoint
   - Audio
+  - Win
   layers:
   - Default
   - TransparentFX
