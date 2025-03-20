@@ -1,0 +1,236 @@
+using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Collections;
+using Unity.VisualScripting;
+
+public class EnemyAI : MonoBehaviour
+{
+    [SerializeField] private List<Transform> patrolPoints;
+    [SerializeField] private float pointWaitTime = 1.5f;
+    [SerializeField] private float sightRange = 10f;
+    [SerializeField] private float visionAngle = 45f;
+    [SerializeField] private Transform player;
+    [SerializeField] private LayerMask obstacleMask;
+    [SerializeField] private Image alertIcon;
+
+    private NavMeshAgent _navMeshAgent;
+    private int _currentPatrolPointIndex = 0;
+    private bool waiting = false;
+    private bool playerInSight;
+
+    void Start()
+    {
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+
+        if (patrolPoints.Count > 0)
+        {
+            MoveToNextPoint();
+        }
+
+        if (alertIcon != null) alertIcon.gameObject.SetActive(false); // Hide at start
+    }
+
+    void Update()
+    {
+        CheckLineOfSight();
+
+        if (playerInSight)
+        {
+            Debug.Log("Player in sight");
+            //Play some sort of alert animation
+            _navMeshAgent.SetDestination(player.position);
+        }
+        
+        if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance && !waiting)
+        {
+            StartCoroutine(WaitAndMove());
+        }
+
+        if (alertIcon != null)
+            alertIcon.gameObject.SetActive(playerInSight); // Show/hide icon
+    }
+
+    private void CheckLineOfSight()
+    {
+        playerInSight = false;
+
+        // Check if the player is within sight range
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer > sightRange) return;
+
+        //Get direction to player
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+
+        //Check if player is within vision angle
+        float angle = Vector3.Angle(transform.forward, directionToPlayer);
+        if (angle > visionAngle / 2) return;
+
+        //Send out a raycast to check for obstacles
+        if (!Physics.Raycast(transform.position, directionToPlayer, out RaycastHit hit, sightRange, obstacleMask))
+        {
+            playerInSight = true;
+        }
+        else
+        {
+            Debug.Log("Obstacle hit: " + hit.collider.name);
+        }
+
+        Debug.DrawRay(transform.position, directionToPlayer * sightRange, playerInSight ? Color.green : Color.red);
+    }
+
+    private void MoveToNextPoint()
+    {
+        if (patrolPoints.Count == 0) return;
+
+        _navMeshAgent.SetDestination(patrolPoints[_currentPatrolPointIndex].position);
+        _currentPatrolPointIndex = (_currentPatrolPointIndex + 1) % patrolPoints.Count; // Loop back to the start
+    }
+
+    private IEnumerator WaitAndMove()
+    {
+        waiting = true;
+        yield return new WaitForSeconds(pointWaitTime);
+        waiting = false;
+        MoveToNextPoint();
+    }
+
+    private void OnDrawGizmos()
+{
+    if (player == null) return;
+
+    // Set Gizmo color (visible in Scene view)
+    Gizmos.color = Color.yellow;
+
+    // Draw the detection range circle
+    Gizmos.DrawWireSphere(transform.position, sightRange);
+
+    // Draw the field of view
+    Vector3 forward = transform.forward;
+    float halfAngle = visionAngle * 0.5f;
+
+    Vector3 leftBoundary = Quaternion.Euler(0, -halfAngle, 0) * forward;
+    Vector3 rightBoundary = Quaternion.Euler(0, halfAngle, 0) * forward;
+
+    Gizmos.DrawRay(transform.position, leftBoundary * sightRange);
+    Gizmos.DrawRay(transform.position, rightBoundary * sightRange);
+
+    // Optionally, draw a line to the player if in sight
+    if (playerInSight)
+    {
+        Gizmos.color = Color.green; // Player is visible
+        Gizmos.DrawLine(transform.position, player.position);
+    }
+}
+    
+    // // Reference to the NavMeshAgent component for movement
+    // public NavMeshAgent agent;
+    // // Reference to the player's transform
+    // public Transform player;
+    // // Layers to identify ground and player
+    // public LayerMask whatIsGround, whatIsPlayer;
+
+    // // Patroling variables
+    // public Vector3 walkPoint; // Target point for patrolling
+    // bool walkPointSet; // Whether a walk point is set
+    // public float walkPointRange; // Range within which walk points are chosen
+
+    // // Attacking variables
+    // public float timeBetweenAttacks; // Time delay between attacks
+    // bool alreadyAttacked; // Whether the enemy has already attacked
+
+    // // State variables
+    // public float sightRange, attackRange; // Ranges for sight and attack
+    // public bool playerInSightRange, playerInAttackRange; // Flags for player detection
+
+    // private void Awake()
+    // {
+    //     // Find the player object and get its transform
+    //     player = GameObject.Find("Player").transform;
+    //     // Get the NavMeshAgent component attached to this object
+    //     agent = GetComponent<NavMeshAgent>();
+    // }
+
+    // private void Update()
+    // {
+    //     // Check if the player is within sight or attack range
+    //     playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+    //     playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+
+    //     // Decide behavior based on player's position relative to the enemy
+    //     if (!playerInSightRange && !playerInAttackRange) Patrolling(); // Patrol if player is not detected
+    //     if (playerInSightRange && !playerInAttackRange) ChasePlayer(); // Chase if player is in sight but out of attack range
+    //     if (playerInSightRange && playerInAttackRange) AttackPlayer(); // Attack if player is in attack range
+    // }
+
+    // private void Patrolling()
+    // {
+    //     // If no walk point is set, find a new one
+    //     if (!walkPointSet) SearchWalkPoint();
+
+    //     // Move to the walk point if set
+    //     if (walkPointSet)
+    //         agent.SetDestination(walkPoint);
+
+    //     // Calculate distance to the walk point
+    //     Vector3 distanceToWalkPoint = transform.position - walkPoint;
+
+    //     // If the walk point is reached, reset the flag
+    //     if (distanceToWalkPoint.magnitude < 1f)
+    //         walkPointSet = false;
+    // }
+
+    // private void SearchWalkPoint()
+    // {
+    //     // Generate a random point within the defined range
+    //     float randomZ = Random.Range(-walkPointRange, walkPointRange);
+    //     float randomX = Random.Range(-walkPointRange, walkPointRange);
+
+    //     // Set the walk point relative to the enemy's current position
+    //     walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+
+    //     // Check if the walk point is on the ground
+    //     if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+    //         walkPointSet = true;
+    // }
+
+    // private void ChasePlayer()
+    // {
+    //     // Set the player's position as the destination
+    //     agent.SetDestination(player.position);
+    // }
+
+    // private void AttackPlayer()
+    // {
+    //     // Stop moving while attacking
+    //     agent.SetDestination(transform.position);
+
+    //     // Face the player
+    //     transform.LookAt(player);
+
+    //     if (!alreadyAttacked)
+    //     {
+    //         // Attack logic goes here (e.g., shooting, melee attack)
+    //         alreadyAttacked = true;
+    //         // Reset attack after a delay
+    //         Invoke(nameof(ResetAttack), timeBetweenAttacks);
+    //     }
+    // }
+
+    // private void ResetAttack()
+    // {
+    //     // Allow the enemy to attack again
+    //     alreadyAttacked = false;
+    // }
+
+    // private void OnDrawGizmosSelected()
+    // {
+    //     // Draw a red sphere to visualize the attack range in the editor
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireSphere(transform.position, attackRange);
+    //     // Draw a yellow sphere to visualize the sight range in the editor
+    //     Gizmos.color = Color.yellow;
+    //     Gizmos.DrawWireSphere(transform.position, sightRange);
+    // }
+}
