@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9019090223375346201}
   - component: {fileID: 287661411367003024}
   - component: {fileID: 4390722942229570150}
+  - component: {fileID: 3664368746963046888}
   - component: {fileID: 5946333686904792472}
   m_Layer: 0
   m_Name: Guard
@@ -106,7 +107,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -136,6 +137,19 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3664368746963046888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938486234998501468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd2023191f9542e490b97541eb992f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoint: {fileID: 0}
 --- !u!114 &5946333686904792472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,7 +162,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552cd420465a1024781ab86e02926bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolPoints: []
+  patrolPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   pointWaitTime: 1.5
   sightRange: 10
   visionAngle: 160
