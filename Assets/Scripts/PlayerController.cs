@@ -21,38 +21,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1.5f;
 
-    [Header("TimeChange Settings")]
-    [SerializeField] private float timeChangeDuration = 0.2f;
-    [SerializeField] private float timeChangeCooldown = 3.0f;
-    [SerializeField] Animator transitionAnim;
-
     private CharacterController _characterController;
-    AudioManager audioManager;
 
     // Globals
     // private static Vector3 currentPos = new Vector3(0.0f, 0.0f, 0.0f);
     // private static Quaternion currentRot = new Quaternion();
     // private static float currentHealth = 0.0f;
 
-
     private bool _canDash;
     private bool _isDashing;
     private bool _dashInput;
     
-    private bool _canTimeChange;
-    private bool _isTimeChanging;
-
-    private bool _timeInput;
-    private bool _presentInput;
-    private bool _pastInput;
-    private bool _futureInput;
-    
+      
     private InputSystem_Actions _playerInputActions;
     private Vector3 _input;
     private float _currentSpeed;
     private Vector3 _velocity;
 
-    private ClosestSwitch closestSwitchPoint;
 
     void Awake()
     {
@@ -66,9 +51,6 @@ public class PlayerController : MonoBehaviour
         }
 
         _canDash = true;
-        _canTimeChange = true;
-
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     void OnEnable()
@@ -114,19 +96,11 @@ public class PlayerController : MonoBehaviour
         Look();
         CalculateSpeed();
         Move();
-        TimeChange();
 
         // Dash routine
         if (_dashInput && _canDash)
         {
             StartCoroutine(Dash());
-        }
-
-        // Time Change routine
-        if (_canTimeChange && _timeInput)
-        {
-            _canTimeChange = false;
-            StartCoroutine(TimeSwitch());
         }
     }
 
@@ -136,21 +110,11 @@ public class PlayerController : MonoBehaviour
         Vector2 movementInput = _playerInputActions.Player.Move.ReadValue<Vector2>();
         _input = new Vector3(movementInput.x, 0, movementInput.y);
         _dashInput = _playerInputActions.Player.Sprint.IsPressed();
-        
-        if (_canTimeChange)
+        // Switches time if "T" key is pressed
+        if (_playerInputActions.Player.SwitchTime.IsPressed())
         {
-            _presentInput = _playerInputActions.Player.Present.IsPressed();
-            _pastInput = _playerInputActions.Player.Past.IsPressed();
-            _futureInput = _playerInputActions.Player.Future.IsPressed();
+            GetComponent<PlayerCoroutines>().ChangeTime();
         }
-        
-        if (_presentInput || _pastInput || _futureInput)
-        {
-            _timeInput = true;
-        }
-        
-
-        // Debug.Log(_timeInput);
     }
 
     void Look()
@@ -204,58 +168,14 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    // Handles the time change
-    void TimeChange()
-    {
-        if (_isTimeChanging)
-        {
-            if (_presentInput)
-            {
-                SceneManager.LoadScene("Present");
-            }
-            else if (_pastInput)
-            {
-                SceneManager.LoadScene("Past");
-            }
-            else if (_futureInput)
-            {
-                SceneManager.LoadScene("Future");
-            }
-        }
-    }
-
     IEnumerator Dash()
     {
+        Debug.Log("Start Dash");
         _canDash = false;
         _isDashing = true;
         yield return new WaitForSeconds(dashDuration);
         _isDashing = false;
         yield return new WaitForSeconds(dashCooldown);
         _canDash = true;
-    }
-
-    // The coroutine for the time change
-    IEnumerator TimeSwitch()
-    {
-        // So we don't spawn at the spawn point of the scene we keep our current position
-        closestSwitchPoint = this.GetComponent<ClosestSwitch>();
-        Player.timePos = closestSwitchPoint.getSwitchPoint();
-        Player.timeRot = transform.rotation;
-        Player.timeHealth = GetComponent<Health>().GetHealth();
-
-        _canTimeChange = false;
-        audioManager.PlaySFX(audioManager.timeChangeSFX);
-        transitionAnim.SetTrigger("Enter");
-        yield return new WaitForSeconds(1.0f);
-        _isTimeChanging = true;
-        yield return new WaitForSeconds(timeChangeDuration);
-        _isTimeChanging = false;
-        yield return new WaitForSeconds(timeChangeCooldown);
-        _canTimeChange = true;
-        transitionAnim.SetTrigger("Exit");
-        audioManager.PlaySFX(audioManager.timeChangeSFX);
-
-        // Putting us back to the position before we switched time
-        // transform.position = currentPos; 
     }
 }

@@ -7,6 +7,16 @@ public class Player : MonoBehaviour
     public static Vector3 timePos = new Vector3(0.0f, 0.0f, 0.0f);
     public static Quaternion timeRot = new Quaternion();
     public static float timeHealth = 0.0f;
+    private static bool firstAwake = true;
+
+    void Awake()
+    {
+        if (Player.firstAwake)
+        {
+            timePos = this.transform.position;
+            Player.firstAwake = false;
+        }
+    }
 
 
     // If we make them private, I don't think it matter currently if its public

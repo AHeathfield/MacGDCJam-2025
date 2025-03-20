@@ -1392,6 +1392,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1844167262810569776, guid: df7821fa8df33204786efd0078849b92, type: 3}
+      propertyPath: transitionAnim
+      value: 
+      objectReference: {fileID: 7822680771565170922}
     - target: {fileID: 5837025865071373076, guid: df7821fa8df33204786efd0078849b92, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

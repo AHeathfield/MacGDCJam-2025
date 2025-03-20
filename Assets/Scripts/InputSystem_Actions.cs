@@ -198,6 +198,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchTime"",
+                    ""type"": ""Button"",
+                    ""id"": ""7d812b24-3e1c-4cfb-baeb-a3b5cf3eb163"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -616,6 +625,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Future"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb1d27f5-c163-4567-8fab-1053c4fdea53"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchTime"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1215,6 +1235,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Present = m_Player.FindAction("Present", throwIfNotFound: true);
         m_Player_Past = m_Player.FindAction("Past", throwIfNotFound: true);
         m_Player_Future = m_Player.FindAction("Future", throwIfNotFound: true);
+        m_Player_SwitchTime = m_Player.FindAction("SwitchTime", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1320,6 +1341,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Present;
     private readonly InputAction m_Player_Past;
     private readonly InputAction m_Player_Future;
+    private readonly InputAction m_Player_SwitchTime;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1379,6 +1401,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Future".
         /// </summary>
         public InputAction @Future => m_Wrapper.m_Player_Future;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SwitchTime".
+        /// </summary>
+        public InputAction @SwitchTime => m_Wrapper.m_Player_SwitchTime;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1441,6 +1467,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Future.started += instance.OnFuture;
             @Future.performed += instance.OnFuture;
             @Future.canceled += instance.OnFuture;
+            @SwitchTime.started += instance.OnSwitchTime;
+            @SwitchTime.performed += instance.OnSwitchTime;
+            @SwitchTime.canceled += instance.OnSwitchTime;
         }
 
         /// <summary>
@@ -1488,6 +1517,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Future.started -= instance.OnFuture;
             @Future.performed -= instance.OnFuture;
             @Future.canceled -= instance.OnFuture;
+            @SwitchTime.started -= instance.OnSwitchTime;
+            @SwitchTime.performed -= instance.OnSwitchTime;
+            @SwitchTime.canceled -= instance.OnSwitchTime;
         }
 
         /// <summary>
@@ -1872,6 +1904,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnFuture(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SwitchTime" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitchTime(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
