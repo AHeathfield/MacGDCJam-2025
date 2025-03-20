@@ -110,7 +110,6 @@ public class PlayerController : MonoBehaviour
         Vector2 movementInput = _playerInputActions.Player.Move.ReadValue<Vector2>();
         _input = new Vector3(movementInput.x, 0, movementInput.y);
         _dashInput = _playerInputActions.Player.Sprint.IsPressed();
-
         // Switches time if "T" key is pressed
         if (_playerInputActions.Player.SwitchTime.IsPressed())
         {
