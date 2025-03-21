@@ -114,6 +114,9 @@ public class PlayerController : MonoBehaviour
         if (_playerInputActions.Player.SwitchTime.IsPressed())
         {
             GetComponent<PlayerCoroutines>().ChangeTime();
+            //Set the player's position to be 50 units 
+            // transform.position += new Vector3(0, 50, 0);
+            // Physics.SyncTransforms();
         }
     }
 

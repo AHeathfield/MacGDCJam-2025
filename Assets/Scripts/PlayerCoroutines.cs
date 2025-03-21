@@ -12,6 +12,8 @@ public class PlayerCoroutines : MonoBehaviour
 
     AudioManager audioManager;
     private bool hasTimeSwapped = false;
+    private bool isPresent = true;
+    private bool canSwitch = true;
 
     void Awake()
     {
@@ -32,28 +34,49 @@ public class PlayerCoroutines : MonoBehaviour
     // Handles the time change
     public void ChangeTime()
     {
-        closestSwitchPoint = this.GetComponent<ClosestSwitch>();
-        Player.timePos = closestSwitchPoint.getSwitchPoint();
-        Player.timeRot = transform.rotation;
-        Player.timeHealth = GetComponent<Health>().GetHealth();
-        StartCoroutine(TimeSwitch());
+        if (canSwitch)
+        {
+            closestSwitchPoint = this.GetComponent<ClosestSwitch>();
+            Player.timePos = closestSwitchPoint.getSwitchPoint();
+            Player.timeRot = transform.rotation;
+            Player.timeHealth = GetComponent<Health>().GetHealth();
+            StartCoroutine(TimeSwitch());
+        }
     }
 
     // The coroutine for the time change 
     IEnumerator TimeSwitch()
     {
+        canSwitch = false;
         audioManager.PlaySFX(audioManager.timeChangeSFX);
         transitionAnim.SetTrigger("Enter");
+
         yield return new WaitForSeconds(timeChangeDuration);
-        if (SceneManager.GetActiveScene().name.Equals("Present"))
+        if (isPresent)
         {
-            Debug.Log("Switching to Future");
-            SceneManager.LoadScene("Future");
+            transform.position += new Vector3(0, 50f, 0);
+            Physics.SyncTransforms();
+            isPresent = false;
         }
-        else {
-            Debug.Log("Switching to Past");
-            SceneManager.LoadScene("Present");
+        else
+        {
+            transform.position -= new Vector3(0, 49.5f, 0);
+            Physics.SyncTransforms();
+            isPresent = true;
         }
+        transitionAnim.SetTrigger("Exit");
+        audioManager.PlaySFX(audioManager.timeChangeSFX);
+
+        canSwitch = true;
+        // if (SceneManager.GetActiveScene().name.Equals("Present"))
+        // {
+        //     Debug.Log("Switching to Future");
+        //     SceneManager.LoadScene("Future");
+        // }
+        // else {
+        //     Debug.Log("Switching to Past");
+        //     SceneManager.LoadScene("Present");
+        // }
     }
 
 }
