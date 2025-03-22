@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 9123050585003975571}
   SFXSource: {fileID: 4650284714925343012}
-  backgroundMusic: {fileID: 0}
+  backgroundMusic: {fileID: 8300000, guid: 559c232a43caebe41870ce54786f604e, type: 3}
   timeChangeSFX: {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
 --- !u!1 &4499284543344581919
 GameObject:

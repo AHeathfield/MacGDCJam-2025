@@ -23,16 +23,10 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController _characterController;
 
-    // Globals
-    // private static Vector3 currentPos = new Vector3(0.0f, 0.0f, 0.0f);
-    // private static Quaternion currentRot = new Quaternion();
-    // private static float currentHealth = 0.0f;
-
     private bool _canDash;
     private bool _isDashing;
     private bool _dashInput;
     
-      
     private InputSystem_Actions _playerInputActions;
     private Vector3 _input;
     private float _currentSpeed;
@@ -44,7 +38,6 @@ public class PlayerController : MonoBehaviour
         _playerInputActions = new InputSystem_Actions();
         
         _characterController = GetComponent<CharacterController>();
-        // PlayerController.currentHealth = GetComponent<Health>().GetHealth();
         if (_characterController == null)
         {
             Debug.LogError("CharacterController not found!");
@@ -63,25 +56,10 @@ public class PlayerController : MonoBehaviour
         _playerInputActions.Player.Disable();
     }
 
-    void Start()
-    {
-        this.transform.position = Player.timePos;
-        this.transform.rotation = Player.timeRot;
-        
-        // Changing Health hardcoded :P
-        float originalHealth = Player.timeHealth;
-        if (Mathf.Abs(originalHealth) > 0.1f)
-        {
-            Health playerHealth = GetComponent<Health>();
-            float damageTaken = -1 * (playerHealth.GetMaxHealth() - originalHealth);
-            playerHealth.ChangeHealth(damageTaken);
-        }
-    }
 
     void Update()
     {
         bool isGrounded = _characterController.isGrounded;
-        //bool isGrounded = true;
         if (isGrounded && _velocity.y < 0)
         {
             _velocity.y = -2f;
@@ -149,13 +127,11 @@ public class PlayerController : MonoBehaviour
     {
         // Normalizing in case diagonal faster
         _input.Normalize();
-        //Vector3 moveDir = _input * _currentSpeed * Time.deltaTime;
         Vector3 moveDir = _input * _currentSpeed;
         moveDir = Quaternion.Euler(0, rotationOffset, 0) * moveDir; // Making up for the isometric offset
 
         if (_isDashing)
         {
-            //transform.Translate(transform.forward * dashSpeed * Time.deltaTime, Space.World);
             Vector3 dashDir = transform.forward * dashSpeed;
             _characterController.Move(dashDir * Time.deltaTime);
             return;
@@ -167,8 +143,6 @@ public class PlayerController : MonoBehaviour
         
         // Use CharacterController to move
         _characterController.Move(finalMove);
-        //transform.Translate(moveDir, Space.World);
-        
     }
 
     IEnumerator Dash()

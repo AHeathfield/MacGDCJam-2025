@@ -4,31 +4,21 @@ using System.Collections;
 
 public class PlayerCoroutines : MonoBehaviour
 {
-    [Header("TimeChange Settings")]
-    [SerializeField] private float timeChangeDuration = 1.2f;
-    [SerializeField] Animator transitionAnim;
-
     private ClosestSwitch closestSwitchPoint;
-
-    AudioManager audioManager;
-    private bool hasTimeSwapped = false;
+    private AudioManager audioManager;
     private bool isPresent = true;
     private bool canSwitch = true;
 
     void Awake()
     {
+        // Maybe just change this to a Serialize field??
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (hasTimeSwapped)
-        {
-            transitionAnim.SetTrigger("Exit");
-            audioManager.PlaySFX(audioManager.timeChangeSFX);
-        }
-        hasTimeSwapped = true;
+        audioManager.PlaySFX(audioManager.timeChangeSFX);
     }
 
     // Handles the time change
@@ -37,9 +27,6 @@ public class PlayerCoroutines : MonoBehaviour
         if (canSwitch)
         {
             closestSwitchPoint = this.GetComponent<ClosestSwitch>();
-            Player.timePos = closestSwitchPoint.getSwitchPoint();
-            Player.timeRot = transform.rotation;
-            Player.timeHealth = GetComponent<Health>().GetHealth();
             StartCoroutine(TimeSwitch());
         }
     }
@@ -49,34 +36,28 @@ public class PlayerCoroutines : MonoBehaviour
     {
         canSwitch = false;
         audioManager.PlaySFX(audioManager.timeChangeSFX);
-        transitionAnim.SetTrigger("Enter");
 
-        yield return new WaitForSeconds(timeChangeDuration);
+        TimeSwitchAnimations timeAnims = GetComponent<TimeSwitchAnimations>();
+        timeAnims.RunTimeSwitchAnimations();
+        yield return new WaitForSeconds(timeAnims.GetTimeFadeDuration());
+
+        float currentX = closestSwitchPoint.getSwitchPoint().x;
+        float currentZ = closestSwitchPoint.getSwitchPoint().z;
         if (isPresent)
         {
-            transform.position += new Vector3(0, 50f, 0);
+            transform.position = new Vector3(currentX, 49.5f, currentZ);
             Physics.SyncTransforms();
             isPresent = false;
         }
         else
         {
-            transform.position -= new Vector3(0, 49.5f, 0);
+            transform.position = new Vector3(currentX, 0.05f, currentZ);
             Physics.SyncTransforms();
             isPresent = true;
         }
-        transitionAnim.SetTrigger("Exit");
-        audioManager.PlaySFX(audioManager.timeChangeSFX);
 
+        audioManager.PlaySFX(audioManager.timeChangeSFX);
         canSwitch = true;
-        // if (SceneManager.GetActiveScene().name.Equals("Present"))
-        // {
-        //     Debug.Log("Switching to Future");
-        //     SceneManager.LoadScene("Future");
-        // }
-        // else {
-        //     Debug.Log("Switching to Past");
-        //     SceneManager.LoadScene("Present");
-        // }
     }
 
 }
