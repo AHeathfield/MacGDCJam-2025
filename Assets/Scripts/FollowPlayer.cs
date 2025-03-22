@@ -3,15 +3,24 @@ using UnityEngine;
 public class FollowPlayer : MonoBehaviour
 {
     [SerializeField] private GameObject player;
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float speed = 12f;
     [SerializeField] private float rotateSpeed = 10f;
+
+    private bool isPlayerInFuture = false;
 
     void Update()
     {
         if (player == null) return;
 
-        MoveTowardsPlayer();
-        RotateTowardsPlayer();
+        if (isPlayerInFuture)
+        {
+            MoveTowardsPlayer();
+            RotateTowardsPlayer();
+        }
+    }
+
+    public void toggleFollow() {
+        isPlayerInFuture = !isPlayerInFuture;
     }
 
     private void MoveTowardsPlayer()

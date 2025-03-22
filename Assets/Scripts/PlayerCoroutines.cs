@@ -2,12 +2,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
+// Currently this script just handles coroutine when player moves to the future
 public class PlayerCoroutines : MonoBehaviour
 {
     private ClosestSwitch closestSwitchPoint;
     private AudioManager audioManager;
     private bool isPresent = true;
     private bool canSwitch = true;
+    private GameObject[] timeReapers;
 
     void Awake()
     {
@@ -19,6 +21,7 @@ public class PlayerCoroutines : MonoBehaviour
     void Start()
     {
         audioManager.PlaySFX(audioManager.timeChangeSFX);
+        timeReapers = GameObject.FindGameObjectsWithTag("TimeReaper");
     }
 
     // Handles the time change
@@ -54,6 +57,14 @@ public class PlayerCoroutines : MonoBehaviour
             transform.position = new Vector3(currentX, 0.05f, currentZ);
             Physics.SyncTransforms();
             isPresent = true;
+        }
+
+        // Ghost(s) will start following you
+        
+        foreach (GameObject reaper in timeReapers)
+        {
+            // Will toggle follow to true when going to future, false when going to present
+            reaper.GetComponent<FollowPlayer>().toggleFollow();
         }
 
         audioManager.PlaySFX(audioManager.timeChangeSFX);

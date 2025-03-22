@@ -7,6 +7,7 @@ TagManager:
   - SwitchPoint
   - Audio
   - Win
+  - TimeReaper
   layers:
   - Default
   - TransparentFX

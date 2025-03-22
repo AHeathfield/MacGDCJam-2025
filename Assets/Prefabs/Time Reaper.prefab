@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7566257843514652366}
   - component: {fileID: 7484070852509913308}
   m_Layer: 0
-  m_Name: Monster
-  m_TagString: Untagged
+  m_Name: Time Reaper
+  m_TagString: TimeReaper
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,7 +85,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd2023191f9542e490b97541eb992f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoint: {fileID: 8474923895694987695, guid: 37af05e6748af4e69bf2f6b125186c50, type: 3}
 --- !u!1001 &361248936531530234
 PrefabInstance:
   m_ObjectHideFlags: 0
