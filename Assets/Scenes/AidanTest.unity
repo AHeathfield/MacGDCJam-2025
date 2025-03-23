@@ -1751,18 +1751,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 786276716}
     m_Modifications:
-    - target: {fileID: 603006637198049949, guid: b9cb3480cd3748644940292ead3908c5, type: 3}
-      propertyPath: m_Intensity
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 603006637198049949, guid: b9cb3480cd3748644940292ead3908c5, type: 3}
-      propertyPath: m_SpotAngle
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 603006637198049949, guid: b9cb3480cd3748644940292ead3908c5, type: 3}
-      propertyPath: m_InnerSpotAngle
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 938486234998501468, guid: b9cb3480cd3748644940292ead3908c5, type: 3}
       propertyPath: m_Name
       value: Guard

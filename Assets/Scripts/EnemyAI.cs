@@ -7,18 +7,27 @@ using Unity.VisualScripting;
 
 public class EnemyAI : MonoBehaviour
 {
+    [Header("Patrol Settings")]
     [SerializeField] private List<Transform> patrolPoints;
     [SerializeField] private float pointWaitTime = 1.5f;
+
+    [Header("Player Detection Settings")]
     [SerializeField] private float sightRange = 10f;
     [SerializeField] private float visionAngle = 45f;
     [SerializeField] private Transform player;
     [SerializeField] private LayerMask obstacleMask;
-    [SerializeField] private Image alertIcon;
+
+    [Header("Icons and Animations")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private GameObject exclamationMark;
+    [SerializeField] private GameObject questionMark;
 
     private NavMeshAgent _navMeshAgent;
     private int _currentPatrolPointIndex = 0;
     private bool waiting = false;
-    private bool playerInSight;
+    private bool playerInSight = false;
+    private Vector3 lastKnownPlayerPosition;
+    private bool investigating = false;
 
     void Start()
     {
@@ -29,7 +38,8 @@ public class EnemyAI : MonoBehaviour
             MoveToNextPoint();
         }
 
-        if (alertIcon != null) alertIcon.gameObject.SetActive(false); // Hide at start
+        if (exclamationMark != null) exclamationMark.SetActive(false); // Hide at start
+        if (questionMark != null) questionMark.SetActive(false); // Hide at start
     }
 
     void Update()
@@ -39,45 +49,106 @@ public class EnemyAI : MonoBehaviour
         if (playerInSight)
         {
             Debug.Log("Player in sight");
-            //Play some sort of alert animation
-            _navMeshAgent.SetDestination(player.position);
+            ChasePlayer();
+        }
+        else if (investigating)
+        {
+            Debug.Log("Investigating");
+            Investigate();
+        }
+        else
+        {
+            Debug.Log("Patrolling");
+            Patrol();
         }
         
-        if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance && !waiting)
-        {
-            StartCoroutine(WaitAndMove());
-        }
+        // if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance && !waiting)
+        // {
+        //     StartCoroutine(WaitAndMove());
+        // }
 
-        if (alertIcon != null)
-            alertIcon.gameObject.SetActive(playerInSight); // Show/hide icon
+        // if (exclamationMark != null)
+        //     exclamationMark.SetActive(playerInSight); // Show/hide icon
     }
 
     private void CheckLineOfSight()
     {
+        bool wasInSight = playerInSight;
         playerInSight = false;
 
         // Check if the player is within sight range
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer > sightRange) return;
+        if (distanceToPlayer > sightRange)
+        {
+            if (wasInSight) OnPlayerLost();
+            return;
+        }
 
         //Get direction to player
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
 
         //Check if player is within vision angle
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
-        if (angle > visionAngle / 2) return;
+        if (angle > visionAngle / 2)
+        {
+            if (wasInSight) OnPlayerLost();
+            return;
+        }
 
         //Send out a raycast to check for obstacles
         if (!Physics.Raycast(transform.position, directionToPlayer, out RaycastHit hit, sightRange, obstacleMask))
         {
             playerInSight = true;
+            lastKnownPlayerPosition = player.position;
         }
-        else
+        else if (wasInSight)
         {
-            Debug.Log("Obstacle hit: " + hit.collider.name);
+            OnPlayerLost();
         }
 
         Debug.DrawRay(transform.position, directionToPlayer * sightRange, playerInSight ? Color.green : Color.red);
+    }
+
+    void ChasePlayer()
+    {
+        //Show exclamation mark and hide question mark
+        if (exclamationMark != null) exclamationMark.SetActive(true);
+        if (questionMark != null) questionMark.SetActive(false);
+
+        _navMeshAgent.SetDestination(player.position);
+    }
+
+    void Investigate()
+    {
+        //Show question mark and hide exclamation mark
+        if (exclamationMark != null) exclamationMark.SetActive(false);
+        if (questionMark != null) questionMark.SetActive(true);
+
+        if (!_navMeshAgent.hasPath)
+            _navMeshAgent.SetDestination(lastKnownPlayerPosition);
+        // else if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+        //     _navMeshAgent.SetDestination(lastKnownPlayerPosition);
+
+        //If the enemy reaches the last known player position, return to patrolling
+        if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= 0.1f)
+        {
+            investigating = false;
+            if (questionMark != null) questionMark.SetActive(false);
+            MoveToNextPoint();
+        }
+    }
+
+    void Patrol()
+    {
+        //Hide both icons
+        if (exclamationMark != null) exclamationMark.SetActive(false);
+        if (questionMark != null) questionMark.SetActive(false);
+
+        if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance && !waiting)
+        {
+            animator.SetBool("isWalking", false);
+            StartCoroutine(WaitAndMove());
+        }
     }
 
     private void MoveToNextPoint()
@@ -88,11 +159,18 @@ public class EnemyAI : MonoBehaviour
         _currentPatrolPointIndex = (_currentPatrolPointIndex + 1) % patrolPoints.Count; // Loop back to the start
     }
 
+    public void OnPlayerLost()
+    {
+        if (!playerInSight) investigating = true;
+    }
+
     private IEnumerator WaitAndMove()
     {
+        
         waiting = true;
         yield return new WaitForSeconds(pointWaitTime);
         waiting = false;
+        animator.SetBool("isWalking", true);
         MoveToNextPoint();
     }
 
