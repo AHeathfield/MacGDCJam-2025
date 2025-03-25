@@ -28,6 +28,7 @@ public class EnemyAI : MonoBehaviour
     private bool playerInSight = false;
     private Vector3 lastKnownPlayerPosition;
     private bool investigating = false;
+    private bool isPlayerInFuture = false;
 
     void Start()
     {
@@ -44,23 +45,33 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if (isPlayerInFuture)
+        {
+            animator.SetBool("isWalking", false);
+            return;
+        }
+
+        _navMeshAgent.isStopped = false; // Resume movement
+
         CheckLineOfSight();
 
         if (playerInSight)
         {
-            Debug.Log("Player in sight");
+            //Debug.Log("Player in sight");
             ChasePlayer();
         }
         else if (investigating)
         {
-            Debug.Log("Investigating");
+            //Debug.Log("Investigating");
             Investigate();
         }
         else
         {
-            Debug.Log("Patrolling");
+            //Debug.Log("Patrolling");
             Patrol();
         }
+
+        animator.SetBool("isWalking", _navMeshAgent.velocity.magnitude > 0.1f);
         
         // if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance && !waiting)
         // {
@@ -69,6 +80,23 @@ public class EnemyAI : MonoBehaviour
 
         // if (exclamationMark != null)
         //     exclamationMark.SetActive(playerInSight); // Show/hide icon
+    }
+
+    public void toggleFollow() {
+        isPlayerInFuture = !isPlayerInFuture;
+        _navMeshAgent.isStopped = isPlayerInFuture; // Stop or resume the agent
+
+        if (isPlayerInFuture)
+        {
+            animator.SetBool("isWalking", false); // Ensure walking stops when frozen
+        }
+        else
+        {
+            if (!_navMeshAgent.hasPath || _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+            {
+                MoveToNextPoint(); // Resume patrol if not chasing
+            }
+        }
     }
 
     private void CheckLineOfSight()
@@ -115,6 +143,9 @@ public class EnemyAI : MonoBehaviour
         if (exclamationMark != null) exclamationMark.SetActive(true);
         if (questionMark != null) questionMark.SetActive(false);
 
+        //Make the guard faster when chasing the player
+        _navMeshAgent.speed = 12.5f;
+
         _navMeshAgent.SetDestination(player.position);
     }
 
@@ -123,6 +154,8 @@ public class EnemyAI : MonoBehaviour
         //Show question mark and hide exclamation mark
         if (exclamationMark != null) exclamationMark.SetActive(false);
         if (questionMark != null) questionMark.SetActive(true);
+
+        _navMeshAgent.speed = 3.5f;
 
         if (!_navMeshAgent.hasPath)
             _navMeshAgent.SetDestination(lastKnownPlayerPosition);
@@ -143,6 +176,8 @@ public class EnemyAI : MonoBehaviour
         //Hide both icons
         if (exclamationMark != null) exclamationMark.SetActive(false);
         if (questionMark != null) questionMark.SetActive(false);
+
+        _navMeshAgent.speed = 3.5f;
 
         if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance && !waiting)
         {

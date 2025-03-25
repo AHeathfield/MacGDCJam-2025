@@ -8,6 +8,7 @@ TagManager:
   - Audio
   - Win
   - TimeReaper
+  - Guard
   layers:
   - Default
   - TransparentFX
