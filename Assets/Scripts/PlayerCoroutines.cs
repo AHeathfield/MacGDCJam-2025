@@ -10,6 +10,7 @@ public class PlayerCoroutines : MonoBehaviour
     private bool isPresent = true;
     private bool canSwitch = true;
     private GameObject[] timeReapers;
+    private GameObject[] guards;
 
     void Awake()
     {
@@ -22,6 +23,7 @@ public class PlayerCoroutines : MonoBehaviour
     {
         audioManager.PlaySFX(audioManager.timeChangeSFX);
         timeReapers = GameObject.FindGameObjectsWithTag("TimeReaper");
+        guards = GameObject.FindGameObjectsWithTag("Guard");
     }
 
     // Handles the time change
@@ -65,6 +67,12 @@ public class PlayerCoroutines : MonoBehaviour
         {
             // Will toggle follow to true when going to future, false when going to present
             reaper.GetComponent<FollowPlayer>().toggleFollow();
+        }
+
+        foreach (GameObject guard in guards)
+        {
+            // Will toggle follow to true when in present, false when in future
+            guard.GetComponent<EnemyAI>().toggleFollow();
         }
 
         audioManager.PlaySFX(audioManager.timeChangeSFX);
