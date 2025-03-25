@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController _characterController;
 
+    private bool _canMove;
     private bool _canDash;
     private bool _isDashing;
     private bool _dashInput;
@@ -42,8 +43,12 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("CharacterController not found!");
         }
+    }
 
+    void Start()
+    {
         _canDash = true;
+        _canMove = true;
     }
 
     void OnEnable()
@@ -73,12 +78,16 @@ public class PlayerController : MonoBehaviour
         GatherInput();
         Look();
         CalculateSpeed();
-        Move();
 
-        // Dash routine
-        if (_dashInput && _canDash)
+        if (_canMove)
         {
-            StartCoroutine(Dash());
+            Move();
+
+            // Dash routine
+            if (_dashInput && _canDash)
+            {
+                StartCoroutine(Dash());
+            }
         }
     }
 
@@ -154,5 +163,10 @@ public class PlayerController : MonoBehaviour
         _isDashing = false;
         yield return new WaitForSeconds(dashCooldown);
         _canDash = true;
+    }
+
+    public void toggleMove()
+    {
+        _canMove = !_canMove;
     }
 }
