@@ -1,0 +1,15 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=0d7a8afb950984033abde000774160ba&amp;type=3#MainMenuStyle" />
+    <engine:VisualElement name="Container" style="flex-grow: 1; background-color: rgb(33, 49, 63);">
+        <engine:VisualElement name="Main" style="flex-grow: 1; visibility: visible; overflow: visible; display: flex;">
+            <engine:Label text="Game Title" name="Header" class="header" />
+            <engine:Button text="Start" name="MainStartGameButton" class="button" />
+            <engine:Button text="Controls" name="MainControlsButton" parse-escape-sequences="false" class="button" />
+        </engine:VisualElement>
+        <engine:VisualElement name="Controls" style="flex-grow: 1; display: none; visibility: visible;">
+            <engine:Label text="Controls" name="ControlsHeader" class="header" />
+            <engine:Button text="Back" name="ControlsBackButton" class="button" style="justify-content: flex-start; background-position-y: center 0; flex-direction: column; align-self: center; bottom: auto; top: auto;" />
+        </engine:VisualElement>
+        <engine:VisualElement name="FadeOverlay" style="flex-grow: 1; visibility: hidden; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgb(0, 0, 0); opacity: 0;" />
+    </engine:VisualElement>
+</engine:UXML>

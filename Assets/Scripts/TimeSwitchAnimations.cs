@@ -8,15 +8,18 @@ public class TimeSwitchAnimations : MonoBehaviour
 {
     [SerializeField] private float fadeDuration = 1f;
     [SerializeField] private float blackScreenTime = 5f;
-    [SerializeField] private Animator transitionAnim;
+    // [SerializeField] private Animator transitionAnim;
     [SerializeField] private CanvasGroup fadeCanvasGroup;
 
     private bool canFade = true;
     
 
-    private void Start()
+    private void Awake()
     {
-        transitionAnim.SetTrigger("Exit");
+        // Planning to have the scene stuff to be handled in separate class
+        // transitionAnim.SetTrigger("Exit");
+        // Fade from black to transparent
+        // StartCoroutine(FadeScreen(1, 0));
     }
 
     public float GetTimeFadeDuration() { return fadeDuration; }

@@ -1,0 +1,28 @@
+.header {
+    font-size: 200px;
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Fonts/PerfectDOSVGA437.ttf?fileID=12800000&guid=74a5091d8707f334b9a5c31ef71a64ba&type=3#PerfectDOSVGA437");
+    -unity-text-align: upper-center;
+}
+
+.button {
+    font-size: 40px;
+    width: 440px;
+    height: 120px;
+    align-self: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: rgb(0, 164, 161);
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    margin-top: 100px;
+    -unity-font-definition: url("project://database/Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Fonts/PerfectDOSVGA437.ttf?fileID=12800000&guid=74a5091d8707f334b9a5c31ef71a64ba&type=3#PerfectDOSVGA437");
+    transition-duration: 0.35s;
+}
+
+.button:hover {
+    scale: 1.1 1.1;
+    background-color: rgb(11, 108, 107);
+}

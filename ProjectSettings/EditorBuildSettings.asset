@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/StartScreen.unity
     guid: 796ccb8a435bd45d7b92e77dd45267fb
   - enabled: 1
+    path: Assets/Scenes/StartMenu.unity
+    guid: 89215a036864b4b38a8e00e7a20eca46
+  - enabled: 1
     path: Assets/Scenes/AidanTest.unity
     guid: 6e341f02450704d93ac78e56c9b464fb
   - enabled: 1
@@ -25,7 +28,7 @@ EditorBuildSettings:
     guid: 410ebbcc31ac4394783c553ea21e923b
   - enabled: 1
     path: Assets/Scenes/Lvl1.unity
-    guid: ae942b36f7c2dd143908ae5814c85a55
+    guid: e1e274516ffebce46bb3dfd357f9b2bb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
