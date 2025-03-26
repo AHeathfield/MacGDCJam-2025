@@ -21,11 +21,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1.5f;
 
+    [Header("Animations")]
+    [SerializeField] private Animator animator;
+
     private CharacterController _characterController;
 
     private bool _canMove;
     private bool _canDash;
-    private bool _isDashing;
+    private bool _isDashing = false;
     private bool _dashInput;
     
     private InputSystem_Actions _playerInputActions;
@@ -87,6 +90,21 @@ public class PlayerController : MonoBehaviour
             if (_dashInput && _canDash)
             {
                 StartCoroutine(Dash());
+            }
+        }
+
+        if (_isDashing)
+        {
+            return;
+        }
+        else {
+            if (_input != Vector3.zero && !_isDashing)
+            {
+                animator.SetBool("isWalking", true);
+            }
+            else
+            {
+                animator.SetBool("isWalking", false);
             }
         }
     }
@@ -156,11 +174,13 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Dash()
     {
-        Debug.Log("Start Dash");
+        //Debug.Log("Start Dash");
+        animator.SetBool("isDashing", true);
         _canDash = false;
         _isDashing = true;
         yield return new WaitForSeconds(dashDuration);
         _isDashing = false;
+        animator.SetBool("isDashing", false);
         yield return new WaitForSeconds(dashCooldown);
         _canDash = true;
     }
