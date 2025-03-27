@@ -36,6 +36,16 @@ public class SceneController : MonoBehaviour
         StartCoroutine(UILoadNextLevel(fadeOverlay));
     }
 
+    public void ExitGame()
+    {
+        #if UNITY_STANDALONE
+            Application.Quit();
+        #endif
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+    }
+
     private IEnumerator LoadLevel()
     { 
         transitionAnim.SetTrigger("End");

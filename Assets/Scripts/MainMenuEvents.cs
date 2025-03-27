@@ -11,6 +11,7 @@ public class MainMenuEvents : MonoBehaviour
     private VisualElement _fadeOverlay;
     private Button _mainStartButton;
     private Button _mainControlsButton;
+    private Button _mainExitButton;
     private Button _controlsBackButton;
     private List<Button> _menuButtons = new List<Button>();
 
@@ -30,11 +31,13 @@ public class MainMenuEvents : MonoBehaviour
         // Setting up buttons
         _mainStartButton = _mainContainer.Q<Button>("MainStartGameButton");   // cast to button
         _mainControlsButton = _mainContainer.Q<Button>("MainControlsButton");
+        _mainExitButton = _mainContainer.Q<Button>("MainQuitButton");
         _controlsBackButton = _controlsContainer.Q<Button>("ControlsBackButton");
 
         // Register callbacks
-        _mainStartButton.RegisterCallback<ClickEvent>(OnPlayGameClick);
-        _mainControlsButton.RegisterCallback<ClickEvent>(OnControlsClick);
+        _mainStartButton.RegisterCallback<ClickEvent>(OnMainPlayClick);
+        _mainControlsButton.RegisterCallback<ClickEvent>(OnMainControlsClick);
+        _mainExitButton.RegisterCallback<ClickEvent>(OnMainExitClick);
         _controlsBackButton.RegisterCallback<ClickEvent>(OnControlsBackClick);
 
         // For all buttons
@@ -45,19 +48,17 @@ public class MainMenuEvents : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-    }
 
     private void OnDisable()
     {
-        _mainStartButton.UnregisterCallback<ClickEvent>(OnPlayGameClick);
-        _mainControlsButton.UnregisterCallback<ClickEvent>(OnControlsClick);
+        _mainStartButton.UnregisterCallback<ClickEvent>(OnMainPlayClick);
+        _mainControlsButton.UnregisterCallback<ClickEvent>(OnMainControlsClick);
+        _mainExitButton.UnregisterCallback<ClickEvent>(OnMainExitClick);
     }
 
     // ===================== Specific Buttons ===================
     // ===================== Main ==========================
-    private void OnPlayGameClick(ClickEvent evt)
+    private void OnMainPlayClick(ClickEvent evt)
     {
         // Load next scene
         Debug.Log("You Pressed the start button");
@@ -66,12 +67,18 @@ public class MainMenuEvents : MonoBehaviour
         SceneController.instance.LoadNextLevelFromUI(_fadeOverlay);
     }
 
-    private void OnControlsClick(ClickEvent evt)
+    private void OnMainControlsClick(ClickEvent evt)
     {
         // Make #Main container invisible and #Controls visible
         Debug.Log("You pressed the controls button");
         _mainContainer.style.display = DisplayStyle.None;
         _controlsContainer.style.display = DisplayStyle.Flex;
+    }
+
+    private void OnMainExitClick(ClickEvent evt)
+    {
+        Debug.Log("Exiting Game...");
+        SceneController.instance.ExitGame();
     }
 
     // ==================== Controls ========================

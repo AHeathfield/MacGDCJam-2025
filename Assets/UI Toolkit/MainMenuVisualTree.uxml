@@ -5,6 +5,7 @@
             <engine:Label text="Game Title" name="Header" class="header" />
             <engine:Button text="Start" name="MainStartGameButton" class="button" />
             <engine:Button text="Controls" name="MainControlsButton" parse-escape-sequences="false" class="button" />
+            <engine:Button text="Exit" name="MainQuitButton" parse-escape-sequences="false" class="button" />
         </engine:VisualElement>
         <engine:VisualElement name="Controls" style="flex-grow: 1; display: none; visibility: visible;">
             <engine:Label text="Controls" name="ControlsHeader" class="header" style="margin-bottom: 50px;" />
