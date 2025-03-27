@@ -1,0 +1,6 @@
+.text {
+    margin-top: 0;
+    margin-right: 24px;
+    margin-bottom: 0;
+    margin-left: 24px;
+}
