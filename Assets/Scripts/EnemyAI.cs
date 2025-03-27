@@ -10,6 +10,7 @@ public class EnemyAI : MonoBehaviour
     [Header("Patrol Settings")]
     [SerializeField] private List<Transform> patrolPoints;
     [SerializeField] private float pointWaitTime = 1.5f;
+    [SerializeField] private float guardSpeed = 5f;
 
     [Header("Player Detection Settings")]
     [SerializeField] private float sightRange = 10f;
@@ -155,7 +156,7 @@ public class EnemyAI : MonoBehaviour
         if (exclamationMark != null) exclamationMark.SetActive(false);
         if (questionMark != null) questionMark.SetActive(true);
 
-        _navMeshAgent.speed = 3.5f;
+        _navMeshAgent.speed = guardSpeed;
 
         if (!_navMeshAgent.hasPath)
             _navMeshAgent.SetDestination(lastKnownPlayerPosition);
@@ -177,7 +178,7 @@ public class EnemyAI : MonoBehaviour
         if (exclamationMark != null) exclamationMark.SetActive(false);
         if (questionMark != null) questionMark.SetActive(false);
 
-        _navMeshAgent.speed = 3.5f;
+        _navMeshAgent.speed = guardSpeed;
 
         if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance && !waiting)
         {
