@@ -35,13 +35,14 @@ public class PlayerController : MonoBehaviour
     private Vector3 _input;
     private float _currentSpeed;
     private Vector3 _velocity;
-
+    // private PauseMenuEvents _pauseMenu;
 
     void Awake()
     {
         _playerInputActions = new InputSystem_Actions();
-        
         _characterController = GetComponent<CharacterController>();
+        
+
         if (_characterController == null)
         {
             Debug.LogError("CharacterController not found!");
@@ -122,6 +123,12 @@ public class PlayerController : MonoBehaviour
             //Set the player's position to be 50 units 
             // transform.position += new Vector3(0, 50, 0);
             // Physics.SyncTransforms();
+        }
+
+        // Toggles menu
+        if (_playerInputActions.Player.Pause.WasPressedThisFrame())
+        {
+            MenuController.instance.toggleMenu();
         }
     }
 

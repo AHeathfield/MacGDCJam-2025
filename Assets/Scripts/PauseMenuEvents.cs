@@ -3,13 +3,13 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 // This is for the StartScreenMenu, aka new start screen
-public class MainMenuEvents : MonoBehaviour
+public class PauseMenuEvents : MonoBehaviour
 {
     private UIDocument _document;
     private VisualElement _mainContainer;
     private VisualElement _controlsContainer;
-    private VisualElement _fadeOverlay;
-    private Button _mainStartButton;
+    // private VisualElement _fadeOverlay;
+    private Button _mainContinueButton;
     private Button _mainControlsButton;
     private Button _mainExitButton;
     private Button _controlsBackButton;
@@ -17,6 +17,7 @@ public class MainMenuEvents : MonoBehaviour
 
     // Sound when button clicked
     private AudioSource _audioSource;
+    // private bool isActive = false;
 
     private void Awake()
     {
@@ -26,16 +27,16 @@ public class MainMenuEvents : MonoBehaviour
         // Setting up containers
         _mainContainer = _document.rootVisualElement.Q("Main");
         _controlsContainer = _document.rootVisualElement.Q("Controls");
-        _fadeOverlay = _document.rootVisualElement.Q("FadeOverlay");
+        // _fadeOverlay = _document.rootVisualElement.Q("FadeOverlay");
         
         // Setting up buttons
-        _mainStartButton = _mainContainer.Q<Button>("MainStartGameButton");   // cast to button
+        _mainContinueButton = _mainContainer.Q<Button>("MainContinueButton");   // cast to button
         _mainControlsButton = _mainContainer.Q<Button>("MainControlsButton");
-        _mainExitButton = _mainContainer.Q<Button>("MainQuitButton");
+        _mainExitButton = _mainContainer.Q<Button>("MainExitGameButton");
         _controlsBackButton = _controlsContainer.Q<Button>("ControlsBackButton");
 
         // Register callbacks
-        _mainStartButton.RegisterCallback<ClickEvent>(OnMainPlayClick);
+        _mainContinueButton.RegisterCallback<ClickEvent>(OnMainContinueClick);
         _mainControlsButton.RegisterCallback<ClickEvent>(OnMainControlsClick);
         _mainExitButton.RegisterCallback<ClickEvent>(OnMainExitClick);
         _controlsBackButton.RegisterCallback<ClickEvent>(OnControlsBackClick);
@@ -51,21 +52,21 @@ public class MainMenuEvents : MonoBehaviour
 
     private void OnDisable()
     {
-        _mainStartButton.UnregisterCallback<ClickEvent>(OnMainPlayClick);
+        _mainContinueButton.UnregisterCallback<ClickEvent>(OnMainContinueClick);
         _mainControlsButton.UnregisterCallback<ClickEvent>(OnMainControlsClick);
         _mainExitButton.UnregisterCallback<ClickEvent>(OnMainExitClick);
         _controlsBackButton.UnregisterCallback<ClickEvent>(OnControlsBackClick);
     }
 
+
     // ===================== Specific Buttons ===================
     // ===================== Main ==========================
-    private void OnMainPlayClick(ClickEvent evt)
+    private void OnMainContinueClick(ClickEvent evt)
     {
         // Load next scene
-        Debug.Log("You Pressed the start button");
-        // SendToNextLevel nextLevelScript = GetComponent<SendToNextLevel>();
-        // StartCoroutine(nextLevelScript.UILoadNextLevel(_fadeOverlay));
-        SceneController.instance.LoadNextLevelFromUI(_fadeOverlay);
+        Debug.Log("Unpausing game...");
+        MenuController.instance.toggleMenu();
+        // gameObject.SetActive(false);
     }
 
     private void OnMainControlsClick(ClickEvent evt)

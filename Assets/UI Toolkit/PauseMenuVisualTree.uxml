@@ -1,0 +1,43 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=0d7a8afb950984033abde000774160ba&amp;type=3#MainMenuStyle" />
+    <engine:VisualElement name="Container" style="flex-grow: 1; background-color: rgba(33, 49, 63, 0);">
+        <engine:VisualElement name="Main" style="flex-grow: 1; visibility: visible; overflow: visible; display: flex;">
+            <engine:VisualElement name="FadeOverlay" tabindex="0" style="flex-grow: 1; visibility: visible; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgb(0, 0, 0); opacity: 0.5; -unity-text-outline-color: rgba(0, 0, 0, 0); text-shadow: 0 0 0 rgba(0, 0, 0, 0); display: flex; overflow: visible;" />
+            <engine:Label text="Paused" name="PauseHeader" class="header" />
+            <engine:Button text="Continue" name="MainContinueButton" class="button" />
+            <engine:Button text="Controls" name="MainControlsButton" parse-escape-sequences="false" class="button" />
+            <engine:Button text="Exit Game" name="MainExitGameButton" parse-escape-sequences="false" class="button" />
+        </engine:VisualElement>
+        <engine:VisualElement name="Controls" style="flex-grow: 1; display: none; visibility: visible;">
+            <engine:VisualElement name="FadeOverlay" tabindex="0" style="flex-grow: 1; visibility: visible; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgb(0, 0, 0); opacity: 0.5; -unity-text-outline-color: rgba(0, 0, 0, 0); text-shadow: 0 0 0 rgba(0, 0, 0, 0); display: flex; overflow: visible;" />
+            <engine:Label text="Controls" name="ControlsHeader" class="header" style="margin-bottom: 50px;" />
+            <engine:VisualElement name="Movement" class="controls" style="flex-grow: 1; bottom: auto; flex-direction: row; margin-right: 10%; margin-left: 10%;">
+                <engine:VisualElement name="W_Key" class="key" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Sprites/W_key.png?fileID=2800000&amp;guid=5888edd411ce740ee8129bf41e91e28f&amp;type=3#W_key&quot;);" />
+                <engine:VisualElement name="A_Key" class="key" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Sprites/A_Key.png?fileID=2800000&amp;guid=49ae34b2cfef544268d07423b75bb278&amp;type=3#A_Key&quot;);" />
+                <engine:VisualElement name="S_Key" class="key" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Sprites/S_Key.png?fileID=2800000&amp;guid=dd169d18ddc564c66b89109a7f4e1be7&amp;type=3#S_Key&quot;);" />
+                <engine:VisualElement name="D_Key" class="key" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Sprites/D_Key.png?fileID=2800000&amp;guid=82c57bde93c85449f9f4e8add3a490d4&amp;type=3#D_Key&quot;);" />
+                <engine:Label text="Movement" name="Movement_Description" class="description" style="-unity-text-align: middle-center; font-size: 100px; -unity-font-definition: url(&quot;project://database/Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Fonts/PerfectDOSVGA437.ttf?fileID=12800000&amp;guid=74a5091d8707f334b9a5c31ef71a64ba&amp;type=3#PerfectDOSVGA437&quot;); color: rgb(108, 226, 249); -unity-font-style: normal; width: 50%; text-overflow: clip; white-space: normal;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="Dash" class="controls" style="flex-grow: 1; bottom: auto; flex-direction: row; margin-right: 10%; margin-left: 10%;">
+                <engine:VisualElement name="W_Key" class="key" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: none;" />
+                <engine:VisualElement name="A_Key" class="key" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: none;" />
+                <engine:VisualElement name="Shift_Key" class="key longKey" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Sprites/Shift_Key.png?fileID=2800000&amp;guid=b2ba8dcc7d302436e88b6da33133f5e8&amp;type=3#Shift_Key&quot;);" />
+                <engine:Label text="Dash" name="Dash_Description" class="description" style="-unity-text-align: middle-center; font-size: 100px; -unity-font-definition: url(&quot;project://database/Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Fonts/PerfectDOSVGA437.ttf?fileID=12800000&amp;guid=74a5091d8707f334b9a5c31ef71a64ba&amp;type=3#PerfectDOSVGA437&quot;); color: rgb(108, 226, 249); -unity-font-style: normal; width: 50%; text-overflow: clip; white-space: normal;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="Pause" class="controls" style="flex-grow: 1; bottom: auto; flex-direction: row; margin-right: 10%; margin-left: 10%;">
+                <engine:VisualElement name="W_Key" class="key" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: none;" />
+                <engine:VisualElement name="A_Key" class="key" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: none;" />
+                <engine:VisualElement name="Escape_Key" class="key longKey" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Sprites/Escape_Key.png?fileID=2800000&amp;guid=debfc17396c814e07a66aed40c80153f&amp;type=3#Escape_Key&quot;); margin-right: 34px;" />
+                <engine:Label text="Pause" name="Pause_Description" class="description" style="-unity-text-align: middle-center; font-size: 100px; -unity-font-definition: url(&quot;project://database/Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Fonts/PerfectDOSVGA437.ttf?fileID=12800000&amp;guid=74a5091d8707f334b9a5c31ef71a64ba&amp;type=3#PerfectDOSVGA437&quot;); color: rgb(108, 226, 249); -unity-font-style: normal; width: 50%; text-overflow: clip; white-space: normal;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="TimeSwap" class="controls" style="flex-grow: 1; bottom: auto; flex-direction: row; margin-right: 10%; margin-left: 10%;">
+                <engine:VisualElement name="W_Key" class="key" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: none;" />
+                <engine:VisualElement name="A_Key" class="key" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: none;" />
+                <engine:VisualElement name="S_Key" class="key" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: none;" />
+                <engine:VisualElement name="T_Key" class="key" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Sprites/T_Key.png?fileID=2800000&amp;guid=276e95969fe5744bfba734b1a1ebcfaf&amp;type=3#T_Key&quot;);" />
+                <engine:Label text="Future/Past" name="TimeChange_Description" class="description" style="-unity-text-align: middle-center; font-size: 100px; -unity-font-definition: url(&quot;project://database/Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Fonts/PerfectDOSVGA437.ttf?fileID=12800000&amp;guid=74a5091d8707f334b9a5c31ef71a64ba&amp;type=3#PerfectDOSVGA437&quot;); color: rgb(108, 226, 249); -unity-font-style: normal; width: 50%; text-overflow: clip; white-space: normal;" />
+            </engine:VisualElement>
+            <engine:Button text="Back" name="ControlsBackButton" class="button" style="justify-content: flex-start; background-position-y: center 0; flex-direction: column; align-self: center; bottom: auto; top: auto; margin-top: 50px; margin-bottom: 50px;" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>
