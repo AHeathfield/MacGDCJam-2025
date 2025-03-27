@@ -9,7 +9,7 @@ public class ClosestSwitch : MonoBehaviour
         if (other.tag.Equals("SwitchPoint"))
         {
             closestSwitch = other.transform.position;
-            Debug.Log(closestSwitch);
+            Debug.Log("Hit New Point at: " + closestSwitch);
         }
     }
 
