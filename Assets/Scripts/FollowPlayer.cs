@@ -5,8 +5,14 @@ public class FollowPlayer : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private float speed = 12f;
     [SerializeField] private float rotateSpeed = 10f;
+    private Quaternion initialRotation;
 
     private bool isPlayerInFuture = false;
+
+    void Start()
+    {
+        initialRotation = transform.rotation;
+    }
 
     void Update()
     {
@@ -35,6 +41,8 @@ public class FollowPlayer : MonoBehaviour
         if (direction == Vector3.zero) return;
 
         Quaternion targetRotation = Quaternion.LookRotation(direction);
+        //targetRotation.x = initialRotation.x;
+        //targetRotation.z = initialRotation.z;
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
     }
 
