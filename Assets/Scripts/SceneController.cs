@@ -7,6 +7,7 @@ public class SceneController : MonoBehaviour
 {
     [SerializeField] private float timeChangeDuration = 1f;
     [SerializeField] private Animator transitionAnim;
+    // [SerializeField] private GameObject startMenu;
 
     public static SceneController instance;
 
@@ -24,11 +25,18 @@ public class SceneController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        LoadStartMenu();
+    }
+    
+    public void LoadStartMenu()
+    {
+        StartCoroutine(LoadStartMenuRoutine());
     }
 
     public void LoadNextLevel()
     {
-        StartCoroutine(LoadLevel());
+        StartCoroutine(LoadNextLevelRoutine());
     }
 
     public void LoadNextLevelFromUI(VisualElement fadeOverlay)
@@ -59,11 +67,20 @@ public class SceneController : MonoBehaviour
         }
     }
 
-    private IEnumerator LoadLevel()
+    private IEnumerator LoadNextLevelRoutine()
     { 
         transitionAnim.SetTrigger("End");
         yield return new WaitForSeconds(timeChangeDuration);
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        transitionAnim.SetTrigger("Start");
+    }
+
+    private IEnumerator LoadStartMenuRoutine()
+    {
+        transitionAnim.SetTrigger("End");
+        yield return new WaitForSeconds(timeChangeDuration);
+        SceneManager.LoadSceneAsync("StartMenu");
+        // startMenu.SetActive(true);
         transitionAnim.SetTrigger("Start");
     }
 
@@ -91,6 +108,7 @@ public class SceneController : MonoBehaviour
         // A slight pause
         // yield return new WaitForSeconds(0.2f); 
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        // startMenu.SetActive(false);
         transitionAnim.SetTrigger("Start");
     }
 }

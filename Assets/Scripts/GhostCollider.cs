@@ -12,7 +12,8 @@ public class GhostCollider: MonoBehaviour
             //Debug.Log("Player collided with ghost");
             //string currentScene = SceneManager.GetActiveScene().name;
             //Load the start menu scene
-            SceneManager.LoadScene("StartMenu");
+            // SceneManager.LoadScene("StartMenu");
+            SceneController.instance.LoadStartMenu();
         }
     }
 }

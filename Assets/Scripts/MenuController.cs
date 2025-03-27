@@ -30,6 +30,6 @@ public class MenuController : MonoBehaviour
         isPaused = !isPaused;
         pauseMenu.SetActive(isPaused);
 
-       SceneController.instance.PauseScene(isPaused); 
+        SceneController.instance.PauseScene(isPaused); 
     }
 }

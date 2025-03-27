@@ -18,7 +18,7 @@ public class MainMenuEvents : MonoBehaviour
     // Sound when button clicked
     private AudioSource _audioSource;
 
-    private void Awake()
+    private void OnEnable()
     {
         _audioSource = GetComponent<AudioSource>();
         _document = GetComponent<UIDocument>();

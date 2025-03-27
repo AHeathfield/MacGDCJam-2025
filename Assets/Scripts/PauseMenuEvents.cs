@@ -19,7 +19,7 @@ public class PauseMenuEvents : MonoBehaviour
     private AudioSource _audioSource;
     // private bool isActive = false;
 
-    private void Awake()
+    private void OnEnable()
     {
         _audioSource = GetComponent<AudioSource>();
         _document = GetComponent<UIDocument>();
