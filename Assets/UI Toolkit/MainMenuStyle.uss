@@ -26,3 +26,24 @@
     scale: 1.1 1.1;
     background-color: rgb(11, 108, 107);
 }
+
+.key {
+    margin-right: 16px;
+    margin-left: 16px;
+}
+
+.description {
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 100px;
+    color: rgb(108, 226, 249);
+    -unity-text-align: middle-center;
+}
+
+.controls {
+    margin-bottom: 32px;
+}
+
+.longKey {
+    margin-right: 34px;
+}
