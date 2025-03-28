@@ -3695,8 +3695,8 @@ PrefabInstance:
       propertyPath: message
       value: The Forlorn LIbrary can only be accessed by... certain individuals.
         Guess I'll have to slip into the futurefor a bit. Can't stay too long in
-        there though. Otherwise the Reaper will catch me...             Press T to
-        time travel.
+        there though. If the Reaper catches me, it's game over...             Press
+        T to time travel.
       objectReference: {fileID: 0}
     - target: {fileID: 1888720243266768662, guid: 8ca8f39a7c9ab47c08b42c949eac3107, type: 3}
       propertyPath: speaker
