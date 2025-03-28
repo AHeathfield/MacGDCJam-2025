@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1.5f;
 
+    [SerializeField] private float timeSwitchCooldown = 2f;
+
     [Header("Animations")]
     [SerializeField] private Animator animator;
 
@@ -30,6 +32,8 @@ public class PlayerController : MonoBehaviour
     private bool _canDash;
     private bool _isDashing = false;
     private bool _dashInput;
+
+    private bool _canTimeSwitch = true;
     
     private InputSystem_Actions _playerInputActions;
     private Vector3 _input;
@@ -117,9 +121,10 @@ public class PlayerController : MonoBehaviour
         _input = new Vector3(movementInput.x, 0, movementInput.y);
         _dashInput = _playerInputActions.Player.Sprint.IsPressed();
         // Switches time if "T" key is pressed
-        if (_playerInputActions.Player.SwitchTime.IsPressed())
+        if (_playerInputActions.Player.SwitchTime.IsPressed() && _canTimeSwitch)
         {
             GetComponent<PlayerCoroutines>().ChangeTime();
+            StartCoroutine(RunTimeSwitchCooldown());
             //Set the player's position to be 50 units 
             // transform.position += new Vector3(0, 50, 0);
             // Physics.SyncTransforms();
@@ -190,6 +195,13 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isDashing", false);
         yield return new WaitForSeconds(dashCooldown);
         _canDash = true;
+    }
+
+    IEnumerator RunTimeSwitchCooldown()
+    {
+        _canTimeSwitch = false;
+        yield return new WaitForSeconds(timeSwitchCooldown);
+        _canTimeSwitch = true;
     }
 
     public void toggleMove()
