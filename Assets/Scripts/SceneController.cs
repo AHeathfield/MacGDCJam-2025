@@ -26,7 +26,7 @@ public class SceneController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        LoadStartMenu();
+        // LoadStartMenu();
     }
     
     public void LoadStartMenu()

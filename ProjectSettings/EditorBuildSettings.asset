@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/InitializeScene.unity
-    guid: ee52998a9188f427080c25602cb69996
+    path: Assets/Scenes/Opening CutScene.unity
+    guid: fe68d31843bd241af981169f13514a8c
   - enabled: 1
     path: Assets/Scenes/StartMenu.unity
     guid: 89215a036864b4b38a8e00e7a20eca46
@@ -18,20 +18,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Lvl1.unity
     guid: e1e274516ffebce46bb3dfd357f9b2bb
   - enabled: 1
-    path: Assets/Scenes/AidanTest.unity
-    guid: 6e341f02450704d93ac78e56c9b464fb
+    path: Assets/Scenes/MuizLvl1.unity
+    guid: 927d7883e671b104a9d1817aba43d55b
   - enabled: 1
-    path: Assets/Scenes/MuizTest.unity
-    guid: 08b50d01720c6d045ad1c4441ba1819e
+    path: Assets/Scenes/AidanLevel1.unity
+    guid: ca35780d407b447d1b63ed2d84ee479d
   - enabled: 1
-    path: Assets/Scenes/Present.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/Scenes/Past.unity
-    guid: 3085c939dff317240854e82fcb145ad1
-  - enabled: 1
-    path: Assets/Scenes/Future.unity
-    guid: 410ebbcc31ac4394783c553ea21e923b
+    path: Assets/Scenes/EntranceToFinal.unity
+    guid: 6bc3f13385a3445bd8b5ca9df25ef5cd
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
