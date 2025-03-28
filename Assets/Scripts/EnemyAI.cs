@@ -10,7 +10,7 @@ public class EnemyAI : MonoBehaviour
     [Header("Patrol Settings")]
     [SerializeField] private List<Transform> patrolPoints;
     [SerializeField] private float pointWaitTime = 1.5f;
-    [SerializeField] private float guardSpeed = 5f;
+    [SerializeField] private float guardSpeed;
 
     [Header("Player Detection Settings")]
     [SerializeField] private float sightRange = 10f;

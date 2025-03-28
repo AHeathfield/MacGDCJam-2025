@@ -23,7 +23,7 @@ public class PlayerCoroutines : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        audioManager.PlaySFX(audioManager.timeChangeSFX);
+        //audioManager.PlaySFX(audioManager.timeChangeSFX);
         timeReapers = GameObject.FindGameObjectsWithTag("TimeReaper");
         guards = GameObject.FindGameObjectsWithTag("Guard");
         lightSwitch = FindAnyObjectByType<LightSwitch>();
@@ -43,7 +43,7 @@ public class PlayerCoroutines : MonoBehaviour
     IEnumerator TimeSwitch()
     {
         canSwitch = false;
-        audioManager.PlaySFX(audioManager.timeChangeSFX);
+        //audioManager.PlaySFX(audioManager.timeChangeSFX);
 
         TimeSwitchAnimations timeAnims = GetComponent<TimeSwitchAnimations>();
         timeAnims.RunTimeSwitchAnimations();
@@ -83,7 +83,7 @@ public class PlayerCoroutines : MonoBehaviour
             lightSwitch.toggleLight();
         }
 
-        audioManager.PlaySFX(audioManager.timeChangeSFX);
+        //audioManager.PlaySFX(audioManager.timeChangeSFX);
         canSwitch = true;
     }
 
