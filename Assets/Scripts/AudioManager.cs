@@ -9,78 +9,158 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource SFXSource;
 
     [Header("Background Music Tracks")]
-    [SerializeField] private List<AudioClip> backgroundTracks = new List<AudioClip>(); // List to hold multiple tracks
+    [SerializeField] private List<AudioClip> backgroundTracks = new List<AudioClip>();
     [SerializeField] private AudioLowPassFilter lowPassFilter;
-    [SerializeField] private float normalCutoffFrequency = 22000f; // Normal frequency for the low-pass filter
+    [SerializeField] private float normalCutoffFrequency = 22000f;
 
     [Header("Silence Duration")]
     [SerializeField] private float minSilenceDuration = 10f;
     [SerializeField] private float maxSilenceDuration = 30f;
 
-    private List<AudioClip> shuffledTracks = new List<AudioClip>(); // Holds shuffled tracks
+    public static AudioManager instance;
+
+    private List<AudioClip> shuffledTracks = new List<AudioClip>();
     private int trackIndex = 0;
+    private Coroutine musicCoroutine;
+    private AudioClip currentSceneClip;
+    private bool isPlayingSceneTrack = false;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
-
         // Ensure the background music source is assigned
         if (musicSource == null)
         {
-            musicSource = GetComponentInChildren<AudioSource>(); // Find the child with an AudioSource
+            musicSource = GetComponentInChildren<AudioSource>();
         }
 
-        // Ensure Low-Pass Filter is added to the correct GameObject (music child)
+        // Ensure Low-Pass Filter is setup
         if (musicSource != null)
         {
             lowPassFilter = musicSource.GetComponent<AudioLowPassFilter>();
             if (lowPassFilter == null)
                 lowPassFilter = musicSource.gameObject.AddComponent<AudioLowPassFilter>();
 
-            lowPassFilter.cutoffFrequency = normalCutoffFrequency; // Start with normal sound
+            lowPassFilter.cutoffFrequency = normalCutoffFrequency;
         }
         else
         {
             Debug.LogError("No AudioSource found for background music!");
         }
 
+        StartRandomPlaylist();
+    }
+
+    private void StartRandomPlaylist()
+    {
         ShuffleTracks();
-        StartCoroutine(PlayRandomMusic());
+        if (musicCoroutine != null)
+        {
+            StopCoroutine(musicCoroutine);
+        }
+        musicCoroutine = StartCoroutine(PlayRandomMusic());
     }
 
     private void ShuffleTracks()
     {
-        shuffledTracks = new List<AudioClip>(backgroundTracks); // Copy the list
+        shuffledTracks = new List<AudioClip>(backgroundTracks);
         for (int i = 0; i < shuffledTracks.Count; i++)
         {
             int randomIndex = Random.Range(i, shuffledTracks.Count);
-            (shuffledTracks[i], shuffledTracks[randomIndex]) = (shuffledTracks[randomIndex], shuffledTracks[i]); // Swap elements
+            (shuffledTracks[i], shuffledTracks[randomIndex]) = (shuffledTracks[randomIndex], shuffledTracks[i]);
         }
-        trackIndex = 0; // Reset index
+        trackIndex = 0;
     }
 
     private IEnumerator PlayRandomMusic()
     {
         while (true)
         {
-            if (shuffledTracks.Count == 0) yield break; // If no tracks are available, exit
+            if (shuffledTracks.Count == 0) yield break;
 
-            if (trackIndex >= shuffledTracks.Count) ShuffleTracks(); // If all tracks are played, reshuffle
+            if (trackIndex >= shuffledTracks.Count) ShuffleTracks();
 
             AudioClip selectedTrack = shuffledTracks[trackIndex];
             trackIndex++;
             musicSource.clip = selectedTrack;
             musicSource.Play();
 
-            yield return new WaitForSeconds(selectedTrack.length); // Wait for the track to finish
+            yield return new WaitForSeconds(selectedTrack.length);
 
             float silenceDuration = Random.Range(minSilenceDuration, maxSilenceDuration);
-            yield return new WaitForSeconds(silenceDuration); // Wait before playing the next track
+            yield return new WaitForSeconds(silenceDuration);
         }
     }
+
+    public void PlaySceneTrack(AudioClip clip)
+    {
+        if (musicCoroutine != null)
+        {
+            StopCoroutine(musicCoroutine);
+            musicCoroutine = null;
+        }
+
+        currentSceneClip = clip;
+        isPlayingSceneTrack = true;
+        musicSource.clip = clip;
+        musicSource.loop = false;
+
+        // Disable low-pass filter for scene tracks
+        if (lowPassFilter != null)
+        {
+            lowPassFilter.enabled = false;
+        }
+
+        musicSource.Play();
+        StartCoroutine(WaitForSceneTrackToEnd());
+    }
+
+    private IEnumerator WaitForSceneTrackToEnd()
+    {
+        yield return new WaitForSeconds(currentSceneClip.length);
+        
+        if (isPlayingSceneTrack && musicSource.clip == currentSceneClip)
+        {
+            isPlayingSceneTrack = false;
+            currentSceneClip = null;
+
+            // Re-enable the low-pass filter when returning to the playlist
+            if (lowPassFilter != null)
+            {
+                lowPassFilter.enabled = true;
+            }
+
+            StartRandomPlaylist();
+        }
+    }
+
 
     public void PlaySFX(AudioClip clip)
     {
         SFXSource.PlayOneShot(clip);
+    }
+
+    public void StopAllMusic()
+    {
+        if (musicCoroutine != null)
+        {
+            StopCoroutine(musicCoroutine);
+            musicCoroutine = null;
+        }
+        musicSource.Stop();
+        isPlayingSceneTrack = false;
+        currentSceneClip = null;
     }
 }

@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EntranceToFinal.unity
     guid: 6bc3f13385a3445bd8b5ca9df25ef5cd
+  - enabled: 1
+    path: Assets/Scenes/Final Cutscene.unity
+    guid: 25475e9143922475c9f105b0a4a86f69
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
