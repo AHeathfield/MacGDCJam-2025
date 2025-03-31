@@ -45,9 +45,9 @@ public class PlayerCoroutines : MonoBehaviour
         canSwitch = false;
         //audioManager.PlaySFX(audioManager.timeChangeSFX);
 
-        TimeSwitchAnimations timeAnims = GetComponent<TimeSwitchAnimations>();
-        timeAnims.RunTimeSwitchAnimations();
-        yield return new WaitForSeconds(timeAnims.GetTimeFadeDuration());
+        FadeCanvas timeAnims = GetComponent<FadeCanvas>();
+        timeAnims.RunFadeAnimations();
+        yield return new WaitForSeconds(timeAnims.GetFadeDuration());
 
         float currentX = closestSwitchPoint.getSwitchPoint().x;
         float currentZ = closestSwitchPoint.getSwitchPoint().z;

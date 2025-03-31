@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 1545904643753721653}
   - component: {fileID: 7566257843514652366}
   - component: {fileID: 8427405525668800170}
+  - component: {fileID: 2980351463011451230}
   m_Layer: 0
   m_Name: Time Reaper
   m_TagString: TimeReaper
@@ -207,6 +208,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc24e0c07b07e2f40a5e3d15bf88fb84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2980351463011451230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3030508154740625088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54d6c3944075448d08427e06a497a333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 1
+  blackScreenTime: 2
+  fadeCanvasGroup: {fileID: 0}
 --- !u!1001 &3597843039063829850
 PrefabInstance:
   m_ObjectHideFlags: 0

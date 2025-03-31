@@ -10,7 +10,8 @@ public class EvilPortalCollider : MonoBehaviour
         if (other.gameObject.tag == "Player") 
         {
             PlayerController player = other.GetComponent<PlayerController>();
-            player.toggleMove();
+            player.DisableMovement();
+            player.DisableTimeSwitch();
             timeReaper.SetActive(true);
             timeReaper.GetComponent<FollowPlayer>().toggleFollow();
         }
