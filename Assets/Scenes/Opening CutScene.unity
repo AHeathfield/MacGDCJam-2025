@@ -3080,7 +3080,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Our Team Presents:'
+  m_text: 'Team PARZ Presents:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e2aac95e3a60a4e60b01c76514f9f6a2, type: 2}
   m_sharedMaterial: {fileID: -5422199525732621758, guid: e2aac95e3a60a4e60b01c76514f9f6a2, type: 2}
