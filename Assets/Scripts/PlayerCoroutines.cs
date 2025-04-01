@@ -70,6 +70,7 @@ public class PlayerCoroutines : MonoBehaviour
         {
             // Will toggle follow to true when going to future, false when going to present
             reaper.GetComponent<FollowPlayer>().toggleFollow();
+            reaper.GetComponent<GhostSoundController>().ToggleSFX();
         }
 
         foreach (GameObject guard in guards)

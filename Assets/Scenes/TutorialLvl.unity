@@ -9940,6 +9940,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Time Reaper
       objectReference: {fileID: 0}
+    - target: {fileID: 5471337939049577534, guid: 93c7f2d942d87430b939c1e54fd7d4a0, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5971777951884931101, guid: 93c7f2d942d87430b939c1e54fd7d4a0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -50.7
