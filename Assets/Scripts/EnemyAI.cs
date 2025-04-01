@@ -23,6 +23,9 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private GameObject exclamationMark;
     [SerializeField] private GameObject questionMark;
 
+    [Header("Sound Effects (SFX)")]
+    [SerializeField] private AudioSource grunt;
+
     private NavMeshAgent _navMeshAgent;
     private int _currentPatrolPointIndex = 0;
     private bool waiting = false;
@@ -30,6 +33,7 @@ public class EnemyAI : MonoBehaviour
     private Vector3 lastKnownPlayerPosition;
     private bool investigating = false;
     private bool isPlayerInFuture = false;
+    private bool alreadyGrunted = false;
 
     void Start()
     {
@@ -127,6 +131,11 @@ public class EnemyAI : MonoBehaviour
         //Send out a raycast to check for obstacles
         if (!Physics.Raycast(transform.position, directionToPlayer, out RaycastHit hit, sightRange, obstacleMask))
         {
+            if (!alreadyGrunted)
+            {
+                alreadyGrunted = true;
+                grunt.Play();
+            }
             playerInSight = true;
             lastKnownPlayerPosition = player.position;
         }
@@ -197,6 +206,7 @@ public class EnemyAI : MonoBehaviour
 
     public void OnPlayerLost()
     {
+        alreadyGrunted = false;
         if (!playerInSight) investigating = true;
     }
 
@@ -237,114 +247,4 @@ public class EnemyAI : MonoBehaviour
         Gizmos.DrawLine(transform.position, player.position);
     }
 }
-    
-    // // Reference to the NavMeshAgent component for movement
-    // public NavMeshAgent agent;
-    // // Reference to the player's transform
-    // public Transform player;
-    // // Layers to identify ground and player
-    // public LayerMask whatIsGround, whatIsPlayer;
-
-    // // Patroling variables
-    // public Vector3 walkPoint; // Target point for patrolling
-    // bool walkPointSet; // Whether a walk point is set
-    // public float walkPointRange; // Range within which walk points are chosen
-
-    // // Attacking variables
-    // public float timeBetweenAttacks; // Time delay between attacks
-    // bool alreadyAttacked; // Whether the enemy has already attacked
-
-    // // State variables
-    // public float sightRange, attackRange; // Ranges for sight and attack
-    // public bool playerInSightRange, playerInAttackRange; // Flags for player detection
-
-    // private void Awake()
-    // {
-    //     // Find the player object and get its transform
-    //     player = GameObject.Find("Player").transform;
-    //     // Get the NavMeshAgent component attached to this object
-    //     agent = GetComponent<NavMeshAgent>();
-    // }
-
-    // private void Update()
-    // {
-    //     // Check if the player is within sight or attack range
-    //     playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-    //     playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
-    //     // Decide behavior based on player's position relative to the enemy
-    //     if (!playerInSightRange && !playerInAttackRange) Patrolling(); // Patrol if player is not detected
-    //     if (playerInSightRange && !playerInAttackRange) ChasePlayer(); // Chase if player is in sight but out of attack range
-    //     if (playerInSightRange && playerInAttackRange) AttackPlayer(); // Attack if player is in attack range
-    // }
-
-    // private void Patrolling()
-    // {
-    //     // If no walk point is set, find a new one
-    //     if (!walkPointSet) SearchWalkPoint();
-
-    //     // Move to the walk point if set
-    //     if (walkPointSet)
-    //         agent.SetDestination(walkPoint);
-
-    //     // Calculate distance to the walk point
-    //     Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-    //     // If the walk point is reached, reset the flag
-    //     if (distanceToWalkPoint.magnitude < 1f)
-    //         walkPointSet = false;
-    // }
-
-    // private void SearchWalkPoint()
-    // {
-    //     // Generate a random point within the defined range
-    //     float randomZ = Random.Range(-walkPointRange, walkPointRange);
-    //     float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-    //     // Set the walk point relative to the enemy's current position
-    //     walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-
-    //     // Check if the walk point is on the ground
-    //     if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-    //         walkPointSet = true;
-    // }
-
-    // private void ChasePlayer()
-    // {
-    //     // Set the player's position as the destination
-    //     agent.SetDestination(player.position);
-    // }
-
-    // private void AttackPlayer()
-    // {
-    //     // Stop moving while attacking
-    //     agent.SetDestination(transform.position);
-
-    //     // Face the player
-    //     transform.LookAt(player);
-
-    //     if (!alreadyAttacked)
-    //     {
-    //         // Attack logic goes here (e.g., shooting, melee attack)
-    //         alreadyAttacked = true;
-    //         // Reset attack after a delay
-    //         Invoke(nameof(ResetAttack), timeBetweenAttacks);
-    //     }
-    // }
-
-    // private void ResetAttack()
-    // {
-    //     // Allow the enemy to attack again
-    //     alreadyAttacked = false;
-    // }
-
-    // private void OnDrawGizmosSelected()
-    // {
-    //     // Draw a red sphere to visualize the attack range in the editor
-    //     Gizmos.color = Color.red;
-    //     Gizmos.DrawWireSphere(transform.position, attackRange);
-    //     // Draw a yellow sphere to visualize the sight range in the editor
-    //     Gizmos.color = Color.yellow;
-    //     Gizmos.DrawWireSphere(transform.position, sightRange);
-    // }
 }
