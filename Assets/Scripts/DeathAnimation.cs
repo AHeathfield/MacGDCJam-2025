@@ -4,7 +4,7 @@ using System.Collections;
 
 // Might rename class to TimeSwitchAnimations with the purpose of handling all animations
 // When switching time
-public class TimeSwitchAnimations : MonoBehaviour
+public class DeathAnimation : MonoBehaviour
 {
     [SerializeField] private float fadeDuration = 1f;
     [SerializeField] private float blackScreenTime = 5f;

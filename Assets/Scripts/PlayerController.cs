@@ -208,4 +208,24 @@ public class PlayerController : MonoBehaviour
     {
         _canMove = !_canMove;
     }
+
+    public void DisableMovement()
+    {
+        _canMove = false;
+    }
+
+    public void EnableMovement()
+    {
+        _canMove = true;
+    }
+
+    public void DisableTimeSwitch()
+    {
+        _canTimeSwitch = false;
+    }
+
+    public void EnableTimeSwitch()
+    {
+        _canTimeSwitch = true;
+    }
 }

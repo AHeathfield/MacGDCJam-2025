@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 public class PlayerCoroutines : MonoBehaviour
 {
     private ClosestSwitch closestSwitchPoint;
-    private AudioManager audioManager;
+    // private AudioManager audioManager;
     private bool isPresent = true;
     private bool canSwitch = true;
     private GameObject[] timeReapers;
@@ -17,7 +17,7 @@ public class PlayerCoroutines : MonoBehaviour
     void Awake()
     {
         // Maybe just change this to a Serialize field??
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        // audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -45,9 +45,9 @@ public class PlayerCoroutines : MonoBehaviour
         canSwitch = false;
         //audioManager.PlaySFX(audioManager.timeChangeSFX);
 
-        TimeSwitchAnimations timeAnims = GetComponent<TimeSwitchAnimations>();
-        timeAnims.RunTimeSwitchAnimations();
-        yield return new WaitForSeconds(timeAnims.GetTimeFadeDuration());
+        FadeCanvas timeAnims = GetComponent<FadeCanvas>();
+        timeAnims.RunFadeAnimations();
+        yield return new WaitForSeconds(timeAnims.GetFadeDuration());
 
         float currentX = closestSwitchPoint.getSwitchPoint().x;
         float currentZ = closestSwitchPoint.getSwitchPoint().z;
