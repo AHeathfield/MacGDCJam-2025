@@ -177,6 +177,7 @@ public class PlayerController : MonoBehaviour
 
         if (_isDashing)
         {
+            dashSFX.Play();
             Vector3 dashDir = transform.forward * dashSpeed;
             _characterController.Move(dashDir * Time.deltaTime);
             return;
