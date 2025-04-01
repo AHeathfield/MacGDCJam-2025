@@ -23,8 +23,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float timeSwitchCooldown = 2f;
 
-    [Header("Animations")]
+    [Header("Animations & SFX")]
     [SerializeField] private Animator animator;
+    [SerializeField] private AudioSource dashSFX;
+    [SerializeField] private AudioSource walkSFX;
 
     private CharacterController _characterController;
 
@@ -103,13 +105,17 @@ public class PlayerController : MonoBehaviour
             return;
         }
         else {
-            if (_input != Vector3.zero && !_isDashing)
+            bool isMoving = _input != Vector3.zero;
+            animator.SetBool("isWalking", isMoving);
+
+            // Play or stop walk SFX
+            if (isMoving && !walkSFX.isPlaying)
             {
-                animator.SetBool("isWalking", true);
+                walkSFX.Play();
             }
-            else
+            else if (!isMoving && walkSFX.isPlaying)
             {
-                animator.SetBool("isWalking", false);
+                walkSFX.Stop();
             }
         }
     }

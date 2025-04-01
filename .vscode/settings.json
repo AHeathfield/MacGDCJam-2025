@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "MacGDC 2025.sln"
+    "dotnet.defaultSolution": "MacGDCJam-2025.sln"
 }
