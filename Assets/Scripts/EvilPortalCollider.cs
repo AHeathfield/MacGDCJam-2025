@@ -13,6 +13,7 @@ public class EvilPortalCollider : MonoBehaviour
             player.DisableMovement();
             player.DisableTimeSwitch();
             timeReaper.SetActive(true);
+            timeReaper.GetComponent<GhostSoundController>().ToggleSFX();
             timeReaper.GetComponent<FollowPlayer>().toggleFollow();
         }
     }
