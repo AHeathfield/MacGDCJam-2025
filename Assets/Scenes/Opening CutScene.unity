@@ -3875,10 +3875,10 @@ MonoBehaviour:
   musicSource: {fileID: 876851550}
   SFXSource: {fileID: 919294956}
   backgroundTracks:
-  - {fileID: 8300000, guid: c7de7f95faa624bf4ab079b7b53d03a3, type: 3}
-  - {fileID: 8300000, guid: 51fc919fb781b47ea948a2ea63fc62d1, type: 3}
-  - {fileID: 8300000, guid: d33ec2401eda1486d854d83e8d929c97, type: 3}
-  startTrack: {fileID: 8300000, guid: 51fc919fb781b47ea948a2ea63fc62d1, type: 3}
+  - {fileID: 8300000, guid: a3eef5a69571f3a4599fe1086b51bf59, type: 3}
+  - {fileID: 8300000, guid: 35f558c2363805241b6c02cb7f44a58d, type: 3}
+  - {fileID: 8300000, guid: 5e8816a42a31540439b9334f8e0ff31a, type: 3}
+  startTrack: {fileID: 8300000, guid: 35f558c2363805241b6c02cb7f44a58d, type: 3}
   lowPassFilter: {fileID: 876851549}
   normalCutoffFrequency: 440
   minSilenceDuration: 90
