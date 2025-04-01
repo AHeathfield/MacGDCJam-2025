@@ -10,12 +10,14 @@ public class AudioManager : MonoBehaviour
 
     [Header("Background Music Tracks")]
     [SerializeField] private List<AudioClip> backgroundTracks = new List<AudioClip>();
+    [SerializeField] private AudioClip startTrack;
     [SerializeField] private AudioLowPassFilter lowPassFilter;
     [SerializeField] private float normalCutoffFrequency = 22000f;
 
     [Header("Silence Duration")]
     [SerializeField] private float minSilenceDuration = 10f;
     [SerializeField] private float maxSilenceDuration = 30f;
+    [SerializeField] private float openingSceneDur = 10f;
 
     public static AudioManager instance;
 
@@ -59,8 +61,9 @@ public class AudioManager : MonoBehaviour
         {
             Debug.LogError("No AudioSource found for background music!");
         }
-
-        StartRandomPlaylist();
+        
+        StartCoroutine(OpeningSceneWait());
+        // StartRandomPlaylist();
     }
 
     private void StartRandomPlaylist()
@@ -162,5 +165,12 @@ public class AudioManager : MonoBehaviour
         musicSource.Stop();
         isPlayingSceneTrack = false;
         currentSceneClip = null;
+    }
+
+    private IEnumerator OpeningSceneWait()
+    {
+        yield return new WaitForSeconds(openingSceneDur);
+        // StartRandomPlaylist();
+        PlaySceneTrack(startTrack);
     }
 }
