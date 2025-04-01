@@ -145,7 +145,7 @@ public class EnemyAI : MonoBehaviour
         if (questionMark != null) questionMark.SetActive(false);
 
         //Make the guard faster when chasing the player
-        _navMeshAgent.speed = 12.5f;
+        _navMeshAgent.speed = guardSpeed + 5.5f;
 
         _navMeshAgent.SetDestination(player.position);
     }

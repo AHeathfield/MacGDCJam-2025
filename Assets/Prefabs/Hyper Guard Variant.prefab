@@ -22,7 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 9ca3e7976ba5c0e40a4d38f4c3c5aec7, type: 2}
     - target: {fileID: 4390722942229570150, guid: b9cb3480cd3748644940292ead3908c5, type: 3}
       propertyPath: m_Speed
-      value: 10
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946333686904792472, guid: b9cb3480cd3748644940292ead3908c5, type: 3}
+      propertyPath: guardSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946333686904792472, guid: b9cb3480cd3748644940292ead3908c5, type: 3}
+      propertyPath: sightRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5946333686904792472, guid: b9cb3480cd3748644940292ead3908c5, type: 3}
       propertyPath: patrolPoints.Array.size
