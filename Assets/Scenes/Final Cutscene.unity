@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43a5847c05d7243d68db98ebba310c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: {fileID: 8300000, guid: 51fc919fb781b47ea948a2ea63fc62d1, type: 3}
+  music: {fileID: 8300000, guid: 35f558c2363805241b6c02cb7f44a58d, type: 3}
 --- !u!4 &13650144
 Transform:
   m_ObjectHideFlags: 0
@@ -3540,7 +3540,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 71.2
   m_fontSizeBase: 62
   m_fontWeight: 400
   m_enableAutoSizing: 1
