@@ -3879,10 +3879,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 35f558c2363805241b6c02cb7f44a58d, type: 3}
   - {fileID: 8300000, guid: 5e8816a42a31540439b9334f8e0ff31a, type: 3}
   startTrack: {fileID: 8300000, guid: 35f558c2363805241b6c02cb7f44a58d, type: 3}
-  lowPassFilter: {fileID: 876851549}
-  normalCutoffFrequency: 440
-  minSilenceDuration: 90
-  maxSilenceDuration: 180
+  minSilenceDuration: 12
+  maxSilenceDuration: 60
   openingSceneDur: 12
 --- !u!1 &2072062126
 GameObject:

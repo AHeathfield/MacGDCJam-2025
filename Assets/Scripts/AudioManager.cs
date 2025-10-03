@@ -11,8 +11,8 @@ public class AudioManager : MonoBehaviour
     [Header("Background Music Tracks")]
     [SerializeField] private List<AudioClip> backgroundTracks = new List<AudioClip>();
     [SerializeField] private AudioClip startTrack;
-    [SerializeField] private AudioLowPassFilter lowPassFilter;
-    [SerializeField] private float normalCutoffFrequency = 22000f;
+    //[SerializeField] private AudioLowPassFilter lowPassFilter;
+    //[SerializeField] private float normalCutoffFrequency = 22000f;
 
     [Header("Silence Duration")]
     [SerializeField] private float minSilenceDuration = 10f;
@@ -51,11 +51,11 @@ public class AudioManager : MonoBehaviour
         // Ensure Low-Pass Filter is setup
         if (musicSource != null)
         {
-            lowPassFilter = musicSource.GetComponent<AudioLowPassFilter>();
-            if (lowPassFilter == null)
-                lowPassFilter = musicSource.gameObject.AddComponent<AudioLowPassFilter>();
+            // lowPassFilter = musicSource.GetComponent<AudioLowPassFilter>();
+            // if (lowPassFilter == null)
+            //     lowPassFilter = musicSource.gameObject.AddComponent<AudioLowPassFilter>();
 
-            lowPassFilter.cutoffFrequency = normalCutoffFrequency;
+            // lowPassFilter.cutoffFrequency = normalCutoffFrequency;
         }
         else
         {
@@ -99,6 +99,7 @@ public class AudioManager : MonoBehaviour
             trackIndex++;
             musicSource.clip = selectedTrack;
             musicSource.Play();
+            Debug.Log("Now Playing: " + selectedTrack.name);
 
             yield return new WaitForSeconds(selectedTrack.length);
 
@@ -121,10 +122,10 @@ public class AudioManager : MonoBehaviour
         musicSource.loop = false;
 
         // Disable low-pass filter for scene tracks
-        if (lowPassFilter != null)
-        {
-            lowPassFilter.enabled = false;
-        }
+        // if (lowPassFilter != null)
+        // {
+        //     lowPassFilter.enabled = false;
+        // }
 
         musicSource.Play();
         StartCoroutine(WaitForSceneTrackToEnd());
@@ -140,10 +141,10 @@ public class AudioManager : MonoBehaviour
             currentSceneClip = null;
 
             // Re-enable the low-pass filter when returning to the playlist
-            if (lowPassFilter != null)
-            {
-                lowPassFilter.enabled = true;
-            }
+            // if (lowPassFilter != null)
+            // {
+            //     lowPassFilter.enabled = true;
+            // }
 
             StartRandomPlaylist();
         }
